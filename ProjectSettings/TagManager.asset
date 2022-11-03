@@ -3,17 +3,25 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Gem
+  - Level
+  - Enemy
+  - DashRing
+  - Attack
+  - FishManager
+  - Anchor
+  - Enemy_Hit
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - Ground
-  - 
-  - 
+  - Gem
+  - Level Geometry
+  - Water Upside Down
   - 
   - 
   - 
