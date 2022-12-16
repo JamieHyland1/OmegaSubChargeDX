@@ -222,7 +222,7 @@
                     "id": "96d0d03c-b9ec-4617-97e2-b75e7434eab2",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.1)",
+                    "processors": "ScaleVector2(x=0.3)",
                     "groups": "",
                     "action": "Rotate",
                     "isComposite": false,
