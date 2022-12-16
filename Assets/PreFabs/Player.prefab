@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 8172918995276293246}
   - component: {fileID: 8172918995276293184}
   - component: {fileID: 8172918995276293247}
-  - component: {fileID: 8172918995276293185}
   - component: {fileID: 8172918995276293186}
   - component: {fileID: 8172918995276293187}
-  - component: {fileID: 7900356853447587452}
+  - component: {fileID: 755652552782860547}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -108,41 +107,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 8172918995276293243}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d621966cde96ffd4faeab66e92c4461e, type: 3}
+  m_Script: {fileID: 11500000, guid: caaf32ac46c294240a6ae326a7447151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  turnSmoothVelocity: 20
-  turnSmoothTime: 0.1
-  moveSpeed: 250
-  boostSpeed: 650
-  ySpeed: 200
-  animator: {fileID: 8172918995329582129}
-  attackMat: {fileID: 2100000, guid: e499e06af3de8af479f307d27dbc9bd6, type: 2}
-  manager: {fileID: 8172918995276293185}
+  turnSmoothVelocity: 0
+  turnSmoothTime: 0
+  moveSpeed: 0
+  boostSpeed: 0
+  ySpeed: 0
+  animator: {fileID: 0}
+  attackMat: {fileID: 0}
+  manager: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 16
-  boostEffectObj: {fileID: 9056003655227950558}
-  fallTriggerDeadzone: 0.1
-  dashSpeed: 500
-  boostTime: 3
+    m_Bits: 0
+  boostEffectObj: {fileID: 0}
+  fallTriggerDeadzone: 0
+  dashSpeed: 0
+  boostTime: 1
   inMenu: 0
---- !u!114 &8172918995276293185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8172918995276293243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad08ebbda1dc8674883fd81d7b37fbbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boostSlider: {fileID: 0}
-  txt: {fileID: 0}
-  anchorCount: 0
 --- !u!114 &8172918995276293186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +243,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7900356853447587452
+--- !u!114 &755652552782860547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -268,10 +252,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 8172918995276293243}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c877fc7359a10734ab999d82094c3dd5, type: 3}
+  m_Script: {fileID: 11500000, guid: b6a7a9de29d3df347996f0224f30e278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravity: -9.8
+  gravityScale: 1
+  lowJumpMultiplier: 0
+  moveSpeed: 0
+  boostSpeed: 0
+  ySpeed: 0
+  nextPos: {x: 0, y: 0, z: 0}
+  previousPos: {x: 0, y: 0, z: 0}
+  moveDirection: {x: 0, y: 0, z: 0}
+  Drag: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  prevVelocity: {x: 0, y: 0, z: 0}
+  walking: 0
+  running: 0
+  sliding: 0
+  isGrounded: 0
+  jumpButtonHeld: 0
+  isDashing: 0
+  coyoteJump: 0
+  onSlope: 0
+  turnSmoothTime: 0.1
+  fallTriggerDeadzone: 0
+  waterLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  cam: {fileID: 0}
+  groundCheck: {fileID: 0}
+  wallCheck: {fileID: 0}
+  accelCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  gravitylCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  system: {fileID: 8172918995946862553}
+  attackMat: {fileID: 0}
   animator: {fileID: 0}
+  boostEffectObj: {fileID: 0}
+  cameraPoint: {fileID: 0}
+  currentSpeed: 0
+  direction: {x: 0, y: 0, z: 0}
+  startingState: 0
 --- !u!1 &8172918995314749752
 GameObject:
   m_ObjectHideFlags: 0
