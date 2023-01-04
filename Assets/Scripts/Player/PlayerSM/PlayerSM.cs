@@ -86,7 +86,6 @@ using UnityEngine.InputSystem;
         [SerializeField] private AnimationCurve gravitylCurve;
         [SerializeField] ParticleSystem system;
         [SerializeField] Material attackMat;
-        [SerializeField] Animator animator;
         [SerializeField] GameObject boostEffectObj;
         
 
@@ -128,7 +127,7 @@ using UnityEngine.InputSystem;
             rigidbody = GetComponent<Rigidbody>();
             playerTransform = this.gameObject.transform;
             controls.Enable();
-            moveState  = new MoveState(this, rigidbody, this.transform, groundCheck,  controls,  animator,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve);
+            moveState  = new MoveState(this, rigidbody, this.transform, groundCheck,  controls,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve);
             groundMoveState = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck);
         }
 

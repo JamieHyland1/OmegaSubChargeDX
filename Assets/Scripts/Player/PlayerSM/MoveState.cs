@@ -15,10 +15,10 @@ public class MoveState : IState
     LayerMask groundLayer;
     GameObject boostEffectObj;
     AnimationCurve accelCurve;
-    Animator animator;
     Material attackMat;
     Rigidbody rigidbody;
     Camera camera;
+    PlayerEventPublisher publisher;
 
     Vector2 move;
     Vector2 mouseMove;
@@ -61,13 +61,13 @@ public class MoveState : IState
 
     
       
-        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck,  PlayerControls controls, Animator animator, Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve){
+        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck,  PlayerControls controls,  Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve){
             playerSM = _playerSM;
             this.rigidbody = rigidbody;
             this.playerTransform = playerTransform;
             this.groundCheck = groundCheck;
             this.controls = controls;
-            this.animator = animator;
+           
             this.attackMat = attackMat;
             this.boostEffectObj = boostEffectObj;
             this.fallTriggerDeadzone = fallTriggerDeadzone;
@@ -85,6 +85,7 @@ public class MoveState : IState
             waterLayer  = LayerMask.GetMask("Water");
             groundLayer = LayerMask.GetMask("Level Geometry");
             camera = Camera.main;
+            publisher = new PlayerEventPublisher();
             
         }
 
@@ -99,6 +100,7 @@ public class MoveState : IState
             if(aboveWater)force.y -= 9.8f;
             else force = ((Vector3.up * ySpeed * (rise + -fall)) +  (playerTransform.forward * speed * throttle));
             if(jump == true && currentSpeed > 200){
+                Debug.Log("Jump " + jump);
                 rigidbody.AddForce(Vector3.up * 5,ForceMode.Impulse);   
                 jump = false; 
             }
@@ -112,7 +114,7 @@ public class MoveState : IState
              RaycastHit hit;
              RaycastHit groundHit;
 
-
+            Debug.Log("Force " + force);
              if (Physics.CheckSphere(groundCheck.position, 0.1f,groundLayer)){
                 rigidbody.velocity = new Vector3();
                 playerSM.ChangeState(playerSM.groundMoveState);
@@ -176,14 +178,17 @@ public class MoveState : IState
             else boostEffectObj.SetActive(false);         
 
             if(controls.WaterMove.Attack.ReadValue<float>() > 0){
-                animator.SetTrigger("Boost"); 
+                // animator.SetTrigger("Boost"); 
+                publisher.updateBoostingStatus();
             }
         
             mouseMove = mouseMove.normalized;
             xRotation = new Vector3(0, 200 * move.x, 0);
             
-            animator.SetBool("Rising",  rising);
-            animator.SetBool("Falling", falling);
+            // animator.SetBool("Rising",  rising);
+            publisher.updateRisingStatus(rising);
+            // animator.SetBool("Falling", falling);
+            publisher.updateFallingStatus(falling);
         }
 
         void PrintStateName(){}
