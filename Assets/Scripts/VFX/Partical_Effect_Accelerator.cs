@@ -16,7 +16,7 @@ public class Partical_Effect_Accelerator : MonoBehaviour
     public float accelerateMultiplier;
     public float boostMultiplier;
     public Animator propellerAnim;
-    public Player player;
+    // public Player player;
     private AudioSource audio;
     
     private void Awake() {
@@ -42,10 +42,10 @@ public class Partical_Effect_Accelerator : MonoBehaviour
         var bubblesEm = bubbles.emission;
         var smokeEm = smoke.emission;
         var smokeMM = smoke.main;
-        float _turbo = Player.turbo;
+        float _turbo = 1;
         
-        acceleration = controls.Move.Accelerate.ReadValue<float>();
-        boosting = controls.Move.Boost.ReadValue<float>();
+        acceleration = controls.WaterMove.Accelerate.ReadValue<float>();
+        boosting = controls.WaterMove.Boost.ReadValue<float>();
         if (_turbo == 0) boosting = 0;
         
         bubblesEm.rateOverTime = bubbleStartRate + ((boosting * boostMultiplier) + (acceleration * accelerateMultiplier));

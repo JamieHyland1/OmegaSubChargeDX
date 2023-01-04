@@ -1,189 +1,198 @@
+
+using System.Data.SqlTypes;
+using UnityEngine.InputSystem;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
 public class MoveState : IState
 {
     PlayerSM playerSM;
     PlayerControls controls;
-    [SerializeField]
-    Camera cam;
-    [SerializeField]
-    float turnSmoothVelocity = 6000;
-    [SerializeField]
-    float turnSmoothTime = 0.3f;
-
     Transform playerTransform;
-    [Range(0,1),SerializeField]
-    public static float turbo = 1;
-    [SerializeField]
-    UIManager manager;
-    [SerializeField]
-    LayerMask layerMask;
-    [SerializeField]
+    Transform groundCheck;
+    LayerMask waterLayer;
+    LayerMask groundLayer;
     GameObject boostEffectObj;
-    [SerializeField]
-    float fallTriggerDeadzone;
-    [SerializeField]
-    float dashSpeed;
-  AnimationCurve accelCurve;
-
+    AnimationCurve accelCurve;
     Animator animator;
     Material attackMat;
+    Rigidbody rigidbody;
+    Camera camera;
 
-    [SerializeField]
-    int boostTime = 1;
-    [SerializeField]
-    bool inMenu = false;
-
+    Vector2 move;
+    Vector2 mouseMove;
+    Vector3 xRotation;
+    Vector3 yRotation;
+    Vector3 prevPos;
+    Vector3 force;
+   
     float throttle = 0;
     float rise;
     float fall;
     float dashTimer = 1.25f;
-    bool isDashing = false;
-    bool isBoosting = false;
     float counter = 0;
     float speed;
     float moveSpeed;
     float ySpeed;
     float accelTime;
-    bool aboveWater = false;
+    float fallTriggerDeadzone;
+    float dashSpeed;
     float currentSpeed = 0;
-    
-    Rigidbody rigidbody;
-    Vector2 move;
-    Vector2 mouseMove;
-    Vector3 xRotation;
-    Vector3 yRotation;
-    Vector3 yVector;
-    Vector3 prevPos;
-    Vector3 moveDirection;
+    float jumpForce = 100;
+    float speedTarget;
+    float turnSmoothVelocity = 6000;
+    float turnSmoothTime = 0.3f;
+    public static float turbo = 1;
     float angle;
     float targetAngle;
 
+    bool isDashing = false;
+    bool aboveWater = false;
+    bool isBoosting = false;
+    bool inMenu = false;
     bool rising = false;
     bool falling = false;
+    bool jump = false;
+    
+    int boostTime = 1;
+    int jumpPresesed = 0;
+    
+
+    
       
-        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform,  PlayerControls controls, Animator animator,  Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, LayerMask layerMask, AnimationCurve accelCurve){
+        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck,  PlayerControls controls, Animator animator, Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve){
             playerSM = _playerSM;
             this.rigidbody = rigidbody;
             this.playerTransform = playerTransform;
-            this.cam = cam;
+            this.groundCheck = groundCheck;
             this.controls = controls;
             this.animator = animator;
             this.attackMat = attackMat;
             this.boostEffectObj = boostEffectObj;
             this.fallTriggerDeadzone = fallTriggerDeadzone;
             this.moveSpeed = moveSpeed;
-            this.ySpeed = ySpeed;
             this.dashSpeed = dashSpeed;
-            this.layerMask = layerMask;
+            this.ySpeed = ySpeed;
             this.accelCurve = accelCurve;
-            Debug.Log("Move speed " + speed + " dash speed " + dashSpeed);
-           
         }
         
         
         public void Enter(){
-            yVector = new Vector3();
             move = new Vector2();   
             angle = 0;
             accelTime = 0;
+            waterLayer  = LayerMask.GetMask("Water");
+            groundLayer = LayerMask.GetMask("Level Geometry");
+            camera = Camera.main;
+            
         }
 
 
-        public void FixedTick()
-        {
-            
-        var camera = Camera.main;
-        prevPos = playerTransform.position;
-        // Y rotation based on camera
-        float targetAngle = Mathf.Atan2(move.x, 0) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
-        float angle = Mathf.SmoothDampAngle(playerTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+        public void FixedTick(){
+            prevPos = playerTransform.position;
+            // Y rotation based on camera
+            float targetAngle = Mathf.Atan2(move.x, 0) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(playerTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
-            
-        
-               
-        if(!isDashing){
-            
             rigidbody.MoveRotation(Quaternion.Euler(0,angle  * Time.timeScale,0));
-            if(aboveWater)rigidbody.AddForce(Vector3.up * -ySpeed * 12 +  (playerTransform.forward * speed));
-            else rigidbody.AddForce((Vector3.up * ySpeed * (rise + -fall)) +  (playerTransform.forward * speed * throttle));
-            counter = dashTimer;
-
-        }
+            if(aboveWater)force.y -= 9.8f;
+            else force = ((Vector3.up * ySpeed * (rise + -fall)) +  (playerTransform.forward * speed * throttle));
+            if(jump == true && currentSpeed > 200){
+                rigidbody.AddForce(Vector3.up * 5,ForceMode.Impulse);   
+                jump = false; 
+            }
+            rigidbody.AddForce(force);
         }
 
         public void Tick(){          
-            RaycastHit hit;
+            //check if player is above the water line or not
+            //TODO check if player is above water using a raycast pointing downward
 
-            if (!Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, layerMask))
-                aboveWater = true;
-            else
-                aboveWater = false;
+             RaycastHit hit;
+             RaycastHit groundHit;
+
+
+             if (Physics.CheckSphere(groundCheck.position, 0.1f,groundLayer)){
+                rigidbody.velocity = new Vector3();
+                playerSM.ChangeState(playerSM.groundMoveState);
+             }
+
+
+            if (!Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, waterLayer)){
            
-            if(counter <= 0) isDashing = false;
-
-            currentSpeed = Vector3.Distance(prevPos, playerTransform.position)/Time.deltaTime;
-            move = controls.Move.Turn.ReadValue<Vector2>();
-            throttle = controls.Move.Accelerate.ReadValue<float>();
-            xRotation = new Vector3(0,200 * move.x,0);
-         
-            rise = controls.Move.Rise.ReadValue<float>();
-            fall = controls.Move.Fall.ReadValue<float>();
-            mouseMove = (controls.Move.Rotate.ReadValue<Vector2>());
             
+                aboveWater = true;
+            
+            }
+           else {
+                 aboveWater = false;
+            }
+            
+            if(counter <= 0) isDashing = false;
+            
+            
+            //calculate current speed of the player, also read player input
+            currentSpeed = Vector3.Distance(prevPos, playerTransform.position)/Time.deltaTime;
+            move = controls.WaterMove.Turn.ReadValue<Vector2>();
+            throttle = controls.WaterMove.Accelerate.ReadValue<float>();
+            xRotation = new Vector3(0,200 * move.x,0);
+            rise = controls.WaterMove.Rise.ReadValue<float>();
+            fall = controls.WaterMove.Fall.ReadValue<float>();
+            jumpPresesed = (int)controls.WaterMove.Jump.ReadValue<float>();
+            mouseMove = (controls.WaterMove.Rotate.ReadValue<Vector2>());
+
+            //set the acceleration of the character based off its position in an animation curve
             float curveTime;
-          
+        
+             if(controls.WaterMove.Boost.ReadValue<float>() < 1)  speedTarget = moveSpeed; else speedTarget = dashSpeed;
             if(throttle == 1){
                 curveTime  = accelCurve.Evaluate(accelTime);
-                speed = moveSpeed * curveTime;
+                speed = speedTarget * curveTime;
                 if(accelTime < 1)accelTime += Time.deltaTime;
             }
             else{
                 curveTime  = accelCurve.Evaluate(accelTime);
-                speed = moveSpeed * curveTime;
+                speed = speedTarget * curveTime;
                 if(accelTime > 0)accelTime -= Time.deltaTime;
             }
 
             if (rise + -fall > 0)  rising  = true;  else  rising  = false;
             if (rise + -fall < 0)  falling =  true; else  falling = false;
+            if(aboveWater && force.y > 0)rising = true; else if(aboveWater && force.y < 0)falling = true;
 
-            moveDirection = playerTransform.forward;
-
-            if(hit.distance <= 0.5f && !isDashing){
-                rigidbody.velocity = new Vector3(rigidbody.velocity.x,0,rigidbody.velocity.z);
+            if(hit.distance <= 0.8f && currentSpeed > 200 && rising)jump = true;
+            else if (hit.distance <= 0.8f && currentSpeed < 200 && !aboveWater){
+                force.y = 0;
+//                 Debug.Log(" distance from water line " + hit.distance + " current speed " + currentSpeed + " jump " + jump);
+                rigidbody.velocity = new Vector3(rigidbody.velocity.x,0, rigidbody.velocity.z);
+                rising = false;
+                rise = 0;
             }
-            
-            yVector.y = (rise + -fall);
 
-            if(controls.Move.Boost.ReadValue<float>() > 0 && turbo > 0){
+            if(controls.WaterMove.Boost.ReadValue<float>() > 0 && turbo > 0){
                 boostEffectObj.SetActive(true);
             }
             else boostEffectObj.SetActive(false);         
 
-            if(controls.Move.Attack.ReadValue<float>() > 0){
+            if(controls.WaterMove.Attack.ReadValue<float>() > 0){
                 animator.SetTrigger("Boost"); 
             }
         
             mouseMove = mouseMove.normalized;
-            moveDirection = moveDirection.normalized;
+            xRotation = new Vector3(0, 200 * move.x, 0);
             
-            if(!isDashing){
-                xRotation = new Vector3(0, 200 * move.x, 0);
-            }
-
             animator.SetBool("Rising",  rising);
             animator.SetBool("Falling", falling);
-
-            counter -= Time.deltaTime;
         }
 
         void PrintStateName(){}
         
         public void Exit(){
           //handle leaving player state
+                Debug.Log("Moving to ground move state");
+
         }
+
     }
 
