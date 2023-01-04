@@ -15,7 +15,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Move"",
+            ""name"": ""WaterMove"",
             ""id"": ""e8a865ae-1c37-4c53-8eca-aea200a30cd4"",
             ""actions"": [
                 {
@@ -73,6 +73,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""c7b6edd8-db16-471d-bf48-1b0712ed7542"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
                 }
             ],
             ""bindings"": [
@@ -451,17 +459,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""b7ed41e0-a797-410c-8f04-03fdd9678948"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Boost"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""1D Axis mouse"",
                     ""id"": ""80e624a9-3740-467d-8a9c-826581675e94"",
                     ""path"": ""1DAxis"",
@@ -537,21 +534,127 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""545857c1-2801-4328-bba7-9ed9810da335"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""GroundMove"",
+            ""id"": ""eaecacda-db4d-4f22-8f7e-2a0e1cf3f0c2"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""1c6f0585-fbd0-4e24-a038-254a7b540b02"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""d21e643f-0386-42b5-b13a-d8a42dc7c439"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""909126fb-a505-4b60-9114-340c2f1b4ff0"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f279d315-f118-46f0-a844-589b305a1105"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""7cf3c08e-1ce5-4a6e-985d-c4ac82418a75"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""0875df92-377f-45b5-b480-df24584721d7"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""242ac25c-9efd-4c1a-afdb-e358a5423f83"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""beda6885-a27e-4c24-9622-e3e71d653bde"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""ScaleVector2(x=0.3)"",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // Move
-        m_Move = asset.FindActionMap("Move", throwIfNotFound: true);
-        m_Move_Turn = m_Move.FindAction("Turn", throwIfNotFound: true);
-        m_Move_Rotate = m_Move.FindAction("Rotate", throwIfNotFound: true);
-        m_Move_Accelerate = m_Move.FindAction("Accelerate", throwIfNotFound: true);
-        m_Move_Rise = m_Move.FindAction("Rise", throwIfNotFound: true);
-        m_Move_Fall = m_Move.FindAction("Fall", throwIfNotFound: true);
-        m_Move_Boost = m_Move.FindAction("Boost", throwIfNotFound: true);
-        m_Move_Attack = m_Move.FindAction("Attack", throwIfNotFound: true);
+        // WaterMove
+        m_WaterMove = asset.FindActionMap("WaterMove", throwIfNotFound: true);
+        m_WaterMove_Turn = m_WaterMove.FindAction("Turn", throwIfNotFound: true);
+        m_WaterMove_Rotate = m_WaterMove.FindAction("Rotate", throwIfNotFound: true);
+        m_WaterMove_Accelerate = m_WaterMove.FindAction("Accelerate", throwIfNotFound: true);
+        m_WaterMove_Rise = m_WaterMove.FindAction("Rise", throwIfNotFound: true);
+        m_WaterMove_Fall = m_WaterMove.FindAction("Fall", throwIfNotFound: true);
+        m_WaterMove_Boost = m_WaterMove.FindAction("Boost", throwIfNotFound: true);
+        m_WaterMove_Attack = m_WaterMove.FindAction("Attack", throwIfNotFound: true);
+        m_WaterMove_Jump = m_WaterMove.FindAction("Jump", throwIfNotFound: true);
+        // GroundMove
+        m_GroundMove = asset.FindActionMap("GroundMove", throwIfNotFound: true);
+        m_GroundMove_Move = m_GroundMove.FindAction("Move", throwIfNotFound: true);
+        m_GroundMove_Rotate = m_GroundMove.FindAction("Rotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -598,59 +701,64 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Move
-    private readonly InputActionMap m_Move;
-    private IMoveActions m_MoveActionsCallbackInterface;
-    private readonly InputAction m_Move_Turn;
-    private readonly InputAction m_Move_Rotate;
-    private readonly InputAction m_Move_Accelerate;
-    private readonly InputAction m_Move_Rise;
-    private readonly InputAction m_Move_Fall;
-    private readonly InputAction m_Move_Boost;
-    private readonly InputAction m_Move_Attack;
-    public struct MoveActions
+    // WaterMove
+    private readonly InputActionMap m_WaterMove;
+    private IWaterMoveActions m_WaterMoveActionsCallbackInterface;
+    private readonly InputAction m_WaterMove_Turn;
+    private readonly InputAction m_WaterMove_Rotate;
+    private readonly InputAction m_WaterMove_Accelerate;
+    private readonly InputAction m_WaterMove_Rise;
+    private readonly InputAction m_WaterMove_Fall;
+    private readonly InputAction m_WaterMove_Boost;
+    private readonly InputAction m_WaterMove_Attack;
+    private readonly InputAction m_WaterMove_Jump;
+    public struct WaterMoveActions
     {
         private @PlayerControls m_Wrapper;
-        public MoveActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Turn => m_Wrapper.m_Move_Turn;
-        public InputAction @Rotate => m_Wrapper.m_Move_Rotate;
-        public InputAction @Accelerate => m_Wrapper.m_Move_Accelerate;
-        public InputAction @Rise => m_Wrapper.m_Move_Rise;
-        public InputAction @Fall => m_Wrapper.m_Move_Fall;
-        public InputAction @Boost => m_Wrapper.m_Move_Boost;
-        public InputAction @Attack => m_Wrapper.m_Move_Attack;
-        public InputActionMap Get() { return m_Wrapper.m_Move; }
+        public WaterMoveActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Turn => m_Wrapper.m_WaterMove_Turn;
+        public InputAction @Rotate => m_Wrapper.m_WaterMove_Rotate;
+        public InputAction @Accelerate => m_Wrapper.m_WaterMove_Accelerate;
+        public InputAction @Rise => m_Wrapper.m_WaterMove_Rise;
+        public InputAction @Fall => m_Wrapper.m_WaterMove_Fall;
+        public InputAction @Boost => m_Wrapper.m_WaterMove_Boost;
+        public InputAction @Attack => m_Wrapper.m_WaterMove_Attack;
+        public InputAction @Jump => m_Wrapper.m_WaterMove_Jump;
+        public InputActionMap Get() { return m_Wrapper.m_WaterMove; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MoveActions set) { return set.Get(); }
-        public void SetCallbacks(IMoveActions instance)
+        public static implicit operator InputActionMap(WaterMoveActions set) { return set.Get(); }
+        public void SetCallbacks(IWaterMoveActions instance)
         {
-            if (m_Wrapper.m_MoveActionsCallbackInterface != null)
+            if (m_Wrapper.m_WaterMoveActionsCallbackInterface != null)
             {
-                @Turn.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnTurn;
-                @Turn.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnTurn;
-                @Turn.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnTurn;
-                @Rotate.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRotate;
-                @Rotate.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRotate;
-                @Rotate.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRotate;
-                @Accelerate.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnAccelerate;
-                @Accelerate.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnAccelerate;
-                @Accelerate.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnAccelerate;
-                @Rise.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRise;
-                @Rise.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRise;
-                @Rise.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRise;
-                @Fall.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnFall;
-                @Fall.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnFall;
-                @Fall.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnFall;
-                @Boost.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnBoost;
-                @Boost.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnBoost;
-                @Boost.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnBoost;
-                @Attack.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnAttack;
+                @Turn.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnTurn;
+                @Turn.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnTurn;
+                @Turn.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnTurn;
+                @Rotate.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnRotate;
+                @Accelerate.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnAccelerate;
+                @Accelerate.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnAccelerate;
+                @Accelerate.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnAccelerate;
+                @Rise.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnRise;
+                @Rise.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnRise;
+                @Rise.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnRise;
+                @Fall.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnFall;
+                @Fall.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnFall;
+                @Fall.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnFall;
+                @Boost.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnBoost;
+                @Boost.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnBoost;
+                @Boost.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnBoost;
+                @Attack.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnAttack;
+                @Jump.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnJump;
             }
-            m_Wrapper.m_MoveActionsCallbackInterface = instance;
+            m_Wrapper.m_WaterMoveActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Turn.started += instance.OnTurn;
@@ -674,11 +782,55 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
-    public MoveActions @Move => new MoveActions(this);
-    public interface IMoveActions
+    public WaterMoveActions @WaterMove => new WaterMoveActions(this);
+
+    // GroundMove
+    private readonly InputActionMap m_GroundMove;
+    private IGroundMoveActions m_GroundMoveActionsCallbackInterface;
+    private readonly InputAction m_GroundMove_Move;
+    private readonly InputAction m_GroundMove_Rotate;
+    public struct GroundMoveActions
+    {
+        private @PlayerControls m_Wrapper;
+        public GroundMoveActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_GroundMove_Move;
+        public InputAction @Rotate => m_Wrapper.m_GroundMove_Rotate;
+        public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GroundMoveActions set) { return set.Get(); }
+        public void SetCallbacks(IGroundMoveActions instance)
+        {
+            if (m_Wrapper.m_GroundMoveActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
+                @Rotate.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
+            }
+            m_Wrapper.m_GroundMoveActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
+            }
+        }
+    }
+    public GroundMoveActions @GroundMove => new GroundMoveActions(this);
+    public interface IWaterMoveActions
     {
         void OnTurn(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
@@ -687,5 +839,11 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnFall(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+    }
+    public interface IGroundMoveActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
     }
 }

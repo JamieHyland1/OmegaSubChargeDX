@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
     {
         //====================================================================================================
 
-        [Header("Speed variables")]
+        [Header("Speed variables Water")]
 
         [Tooltip("The force of gravity applied to the character when falling")]
         [Range(0, -150), SerializeField] private float gravity = -9.8f;
@@ -52,17 +52,17 @@ using UnityEngine.InputSystem;
 
         //====================================================================================================
 
-        [Header("Movement checks")]
+        // [Header("Movement checks")]
 
-        [SerializeField] private bool walking = false;
-        [SerializeField] private bool running = false;
-        [SerializeField] private bool sliding = false;
-        //reminder create getter and setter for isGrounded
-        [SerializeField] public bool isGrounded = false;
-        [SerializeField] private bool jumpButtonHeld = false;
-        [SerializeField] private bool isDashing = false;
-        [SerializeField] private bool coyoteJump = false;
-        [SerializeField] private bool onSlope = false;
+        // [SerializeField] private bool walking = false;
+        // [SerializeField] private bool running = false;
+        // [SerializeField] private bool sliding = false;
+        // //reminder create getter and setter for isGrounded
+        // [SerializeField] public bool isGrounded = false;
+        // [SerializeField] private bool jumpButtonHeld = false;
+        // [SerializeField] private bool isDashing = false;
+        // [SerializeField] private bool coyoteJump = false;
+        // [SerializeField] private bool onSlope = false;
 
         //====================================================================================================
 
@@ -112,12 +112,13 @@ using UnityEngine.InputSystem;
         public Vector3 direction = new Vector2();
        
 
-        enum States { moving };
+        enum States { WaterMove, GroundMove };
 
         [SerializeField]
         States startingState;
 
         public MoveState moveState  { get; private set; }
+        public GroundMoveState groundMoveState  { get; private set; }
      
 
 
@@ -127,48 +128,31 @@ using UnityEngine.InputSystem;
             rigidbody = GetComponent<Rigidbody>();
             playerTransform = this.gameObject.transform;
             controls.Enable();
-            moveState  = new MoveState(this, rigidbody, this.transform,  controls,  animator,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, waterLayer, accelCurve);
+            moveState  = new MoveState(this, rigidbody, this.transform, groundCheck,  controls,  animator,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve);
+            groundMoveState = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck);
         }
 
         private void Start(){
-           this.ChangeState(moveState);
+            switch(startingState){
+                case States.GroundMove:
+                    this.ChangeState(groundMoveState);
+                    break;
+                case States.WaterMove:
+                    this.ChangeState(moveState);
+                    break;
+            }
+           
         }
       
-        public float scale(float from, float to, float from2, float to2, float value){
-        if(value <= from2){
-            return from;
-        }else if(value >= to2){
-            return to;
-        }else{
-            return (to - from) * ((value - from2) / (to2 - from2)) + from;
-        }
-    }
-
-
-
-    public Vector3 getVelocity(){
-        return velocity;
-    }
-    public void setVelocity(Vector3 vel){
-        this.velocity = vel;
-    }
-    public Vector3 getDirection(){
-        return this.direction;
-    }
-    public void setDirection(Vector3 dir){
-        
-        this.direction = dir;
-    }
-
-    public float getCurrentSpeed(){
-        return this.currentSpeed;
-    }
-    public void setCurrentSpeed(float spd){
-        this.currentSpeed = 0;
-        this.currentSpeed = spd;
-    }
-
-
+    //     public float scale(float from, float to, float from2, float to2, float value){
+    //     if(value <= from2){
+    //         return from;
+    //     }else if(value >= to2){
+    //         return to;
+    //     }else{
+    //         return (to - from) * ((value - from2) / (to2 - from2)) + from;
+    //     }
+    // }
   
     }
 
