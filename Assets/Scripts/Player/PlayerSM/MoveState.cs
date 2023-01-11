@@ -19,6 +19,7 @@ public class MoveState : IState
     Rigidbody rigidbody;
     Camera camera;
     PlayerEventPublisher publisher;
+    BoxCollider collider;
 
     Vector2 move;
     Vector2 mouseMove;
@@ -47,7 +48,7 @@ public class MoveState : IState
     float angle;
     float targetAngle;
 
-    bool isDashing = false;
+    // bool isDashing = false;
     bool aboveWater = false;
     bool isBoosting = false;
     bool inMenu = false;
@@ -61,7 +62,7 @@ public class MoveState : IState
 
     
       
-        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck,  PlayerControls controls,  Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve){
+        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck,  PlayerControls controls,  Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve, BoxCollider collider){
             playerSM = _playerSM;
             this.rigidbody = rigidbody;
             this.playerTransform = playerTransform;
@@ -75,10 +76,13 @@ public class MoveState : IState
             this.dashSpeed = dashSpeed;
             this.ySpeed = ySpeed;
             this.accelCurve = accelCurve;
+            this.collider = collider;
         }
         
         
         public void Enter(){
+            collider.center = new Vector3(0f,2.5f,-0.77f);
+            collider.size = new Vector3(5f,5f,8.5f);
             move = new Vector2();   
             angle = 0;
             accelTime = 0;
@@ -115,24 +119,20 @@ public class MoveState : IState
              RaycastHit groundHit;
 
             Debug.Log("Force " + force);
-             if (Physics.CheckSphere(groundCheck.position, 0.1f,groundLayer)){
-                rigidbody.velocity = new Vector3();
-                playerSM.ChangeState(playerSM.groundMoveState);
-             }
-
-
             if (!Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, waterLayer)){
-           
-            
                 aboveWater = true;
-            
             }
            else {
                  aboveWater = false;
             }
+
+
+            if(Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out groundHit, 15, groundLayer) && aboveWater){
+                  rigidbody.velocity = new Vector3();
+                playerSM.ChangeState(playerSM.groundMoveState);
+            }
             
-            if(counter <= 0) isDashing = false;
-            
+          
             
             //calculate current speed of the player, also read player input
             currentSpeed = Vector3.Distance(prevPos, playerTransform.position)/Time.deltaTime;
@@ -167,10 +167,13 @@ public class MoveState : IState
             else if (hit.distance <= 0.8f && currentSpeed < 200 && !aboveWater){
                 force.y = 0;
 //                 Debug.Log(" distance from water line " + hit.distance + " current speed " + currentSpeed + " jump " + jump);
-                rigidbody.velocity = new Vector3(rigidbody.velocity.x,0, rigidbody.velocity.z);
+                rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
                 rising = false;
                 rise = 0;
             }
+
+
+             Debug.Log("Jump " + jump);
 
             if(controls.WaterMove.Boost.ReadValue<float>() > 0 && turbo > 0){
                 boostEffectObj.SetActive(true);

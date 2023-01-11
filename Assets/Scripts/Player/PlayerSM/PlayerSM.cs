@@ -109,6 +109,7 @@ using UnityEngine.InputSystem;
         float slopeAngleThreshold = 44f;
         public float currentSpeed = 0;
         public Vector3 direction = new Vector2();
+        public BoxCollider collider;
        
 
         enum States { WaterMove, GroundMove };
@@ -127,8 +128,8 @@ using UnityEngine.InputSystem;
             rigidbody = GetComponent<Rigidbody>();
             playerTransform = this.gameObject.transform;
             controls.Enable();
-            moveState  = new MoveState(this, rigidbody, this.transform, groundCheck,  controls,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve);
-            groundMoveState = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck);
+            moveState  = new MoveState(this, rigidbody, this.transform, groundCheck,  controls,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve, collider);
+            groundMoveState = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck, collider);
         }
 
         private void Start(){
