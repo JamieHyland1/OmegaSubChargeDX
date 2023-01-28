@@ -14,17 +14,30 @@ public class GroundMoveState : IState{
     Camera camera;
     bool isGrounded;
     bool aboveWater = false;
-    bool jumping = false;
+    bool jumping;
+    bool jumpPressed;
     Vector3 force;
     Vector2 move;
     Vector3 prevPos;
+    Vector3 prevVel;
+    Vector3 groundPoint;
     float turnSmoothVelocity = 6000;
-    float speed = 300;
+    float speed = 350;
     float angle;
     float targetAngle;
     float currentSpeed;
+    float currentYSpeed;
+    float gravity = -9.8f;
+    float currentGravity;
+    float initialJumpVelocity;
+    float timeToPeak;
+    float maxJumpHeight = 5;
+    float maxJumpTime = .5f;
+    float dragForce = 6.5f;
     PlayerEventPublisher publisher;
     BoxCollider collider;
+
+
     public GroundMoveState(PlayerSM playerSM, Rigidbody rigidboy, PlayerControls controls, Transform playerTransform, Transform groundCheck, BoxCollider collider){
         this.playerSM = playerSM;
         this.rigidbody = rigidbody;
@@ -37,8 +50,8 @@ public class GroundMoveState : IState{
     
     public void Enter(){
         
-        collider.center = new Vector3(0,6,0);
-        collider.size = new Vector3(5f,12.14f,5f);
+        collider.center = new Vector3(0,4.5f,0);
+        collider.size = new Vector3(5f,9,5f);
        
         groundLayer = LayerMask.GetMask("Level Geometry");
         waterLayer  = LayerMask.GetMask("Water");
@@ -47,129 +60,166 @@ public class GroundMoveState : IState{
         Debug.Log("Ground move state");
         camera = Camera.main;
         publisher = new PlayerEventPublisher();
-        publisher.updateGroundedStatus();
+        // /publisher.updateGroundedStatus(true);
+        publisher.updateOnLandStatus();
+
+        controls.GroundMove.Jump.performed += OnJump;
+        controls.GroundMove.Jump.canceled += OnJump;
+        controls.GroundMove.Move.performed += OnMove;
+        controls.GroundMove.Move.canceled += OnMove;
+
+        timeToPeak = maxJumpTime/2;
+        gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToPeak,2);
+        initialJumpVelocity = 2 * maxJumpHeight/timeToPeak;
+        currentGravity = gravity;
     }
+
+
+    public void FixedTick(){
+
+        prevPos = playerTransform.position;  
+        prevVel = rigidbody.velocity;
+           // The Drag component of unitys rigidbody is messing with our jump formula, so set  the rigidbodys drag to 0 in the inspector and add the drag to the x,z axis ourselves leaving the y component dragless
+      
+       
+        ApplyRotation();
+        //apply force to rigidbody
+        rigidbody.AddForce(force);
+    
+        Vector3 currentVelocity =  rigidbody.velocity * ( 1 - Time.fixedDeltaTime * dragForce);
+        rigidbody.velocity = new Vector3(currentVelocity.x, rigidbody.velocity.y, currentVelocity.z);
+        Debug.Log("velocity " + rigidbody.velocity + " force " + force);
+        
+        // force.x = 0f;
+        // force.z = 0f;
+
+         ApplyGravity();
+         HandleJump();
+     
+    }
+
+
+
 
     public void Tick(){
       
-
-
         CheckStatus();
-
-
+      
         move = controls.GroundMove.Move.ReadValue<Vector2>();
-        if(isGrounded && controls.GroundMove.Jump.ReadValue<float>() == 1)jumping = true;
-        Debug.Log("Touching water "  + move.magnitude);
-        Debug.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * 5, Color.green, 0.1f, true);
-        currentSpeed = Vector3.Distance(new Vector3(prevPos.x,0,prevPos.z), new Vector3(playerTransform.position.x, 0, playerTransform.position.z))/Time.deltaTime;
+      
+        currentSpeed  = Vector3.Distance(new Vector3(prevPos.x,0,prevPos.z), new Vector3(playerTransform.position.x, 0, playerTransform.position.z))/Time.deltaTime;
+        currentYSpeed = Vector3.Distance(new Vector3(0,prevPos.y,0), new Vector3(0, playerTransform.position.y, 0))/Time.deltaTime;
+        
         publisher.updateSpeedStatus(move.magnitude);
+        publisher.updateYSpeedStatus(-currentYSpeed);
+        Debug.DrawLine(prevPos, playerTransform.position, Color.black,2f);
+        GroundCheck();
+        HandleRotation();
+        
+        
+    }
+
+    void OnJump(InputAction.CallbackContext context){
+      
+     
+        jumpPressed = context.ReadValueAsButton();
+        if(jumpPressed)publisher.updateJumpedStatus();
+
+    }
+
+    void OnMove(InputAction.CallbackContext context){
+        Debug.Log("Move " + context);
+    }
+    
+
+    void HandleJump(){
+        if(jumpPressed && isGrounded && !jumping){
+            
+            rigidbody.AddForce(Vector3.up * initialJumpVelocity, ForceMode.Impulse);
+            jumping = true;
+        }
+        else if(!jumpPressed && isGrounded && jumping){
+            jumping = false;
+        }   
+    }
+
+    void ApplyGravity(){
+
+        bool isFalling = ((rigidbody.velocity.y <= 0.0f) || !jumpPressed);
+        float fallMultiplier = 15.0f;
+        float previousYVelocity = force.y;
+        float nextYvelocity = 0;
+
+        // Debug.Log("Falling + " + isFalling);
+
+        if(isFalling){
+            float newYVelocity = force.y + currentGravity * fallMultiplier;
+            nextYvelocity = (previousYVelocity + newYVelocity) * 0.5f;
+            
+            //Debug.Log("Jump Test: " + ( jumpPressed) + " force " + Mathf.Max(nextYvelocity,-20f));
+        }else{
+            float newYVelocity = force.y + currentGravity;
+            nextYvelocity = (previousYVelocity + newYVelocity) * 0.5f;
+        }
+
+        if(!isGrounded)force.y += Mathf.Max(nextYvelocity,-500) * Time.fixedDeltaTime;
+    }
+
+    void ApplyRotation(){
+         rigidbody.MoveRotation(Quaternion.Euler(0, angle  * Time.timeScale, 0));
+    }
+
+    void HandleRotation(){
         if(move.magnitude > 0.1){
             
             targetAngle = Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
-            angle = Mathf.SmoothDampAngle(playerTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.01f);
+            angle = Mathf.SmoothDampAngle(playerTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.05f);
             Vector3 relativeForce = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized;
-        
-            force.x = relativeForce.x * speed;
-            force.z = relativeForce.z * speed;
+
+            Debug.Log("Move " + move.magnitude);
+
+            force.x = relativeForce.x * speed * move.magnitude;
+            force.z = relativeForce.z * speed * move.magnitude;
         }
-       Debug.Log("force " + force + " move " + move + " grounded " + controls.GroundMove.Jump.ReadValue<float>());
+        else {
+            force.x = 0;
+            force.z = 0;
+        }
     }
-
-    public void FixedTick(){
-        prevPos = playerTransform.position;
-      
-        if(!isGrounded && force.y >= -350)force.y += -9.8f;
-        rigidbody.MoveRotation(Quaternion.Euler(0, angle  * Time.timeScale, 0));
-        if(jumping == true)rigidbody.AddForce(Vector3.up * 15,ForceMode.Impulse);   
-        rigidbody.AddForce(force);
-        //basic decelleration should be swapped with a animation curve probably
-        force.x *= 0.5f;
-        force.z *= 0.5f;
-    }
-
-    public void Exit(){
-          rigidbody.velocity = new Vector3(0,rigidbody.velocity.y, 0);
-    }
-
 
     // This method is to check wether the mech should be in its land state or water state
 
     public void CheckStatus(){
         RaycastHit groundHit, waterHit;
-
-
-        bool hitGround = Physics.Raycast(groundCheck.position, playerTransform.TransformDirection(Vector3.down), out groundHit, 15, groundLayer);
-        bool hitWater  = Physics.Raycast(groundCheck.position, playerTransform.TransformDirection(Vector3.down), out waterHit,  15, waterLayer);
-       
-       
-          Debug.Log("No ground hit " + hitGround + " " + groundHit.distance + " " + force + " isGrounded " + isGrounded);
-        // Debug.Log("Ground " + groundHit.distance + " Water " + waterHit.distance + " distance between " + Vector3.Distance(groundHit.point, waterHit.point));
-
-        if((hitGround) && groundHit.distance < waterHit.distance){
-            if(Physics.CheckSphere(groundCheck.position, 1.5f, groundLayer)){
-                isGrounded = true;
-                force.y = 0;
-                Debug.Log("Raycast hit ground and water but distance to ground was lesser");
-            }
-            else if(groundHit.distance > 1){
-                isGrounded = false;
-            }
-            // else if(groundHit.distance > waterHit.distance && waterHit.distance <= 2){
-            //     Debug.Log("Raycast hit ground and water but distance to ground was higher");
-            //     //publisher.updateSubmergedStatus();
-            //     //playerSM.ChangeState(playerSM.moveState);
-            // }
-        }
-
-        if(hitGround && !hitWater){
-            if(Physics.CheckSphere(groundCheck.position, 1.5f, groundLayer)){
-                isGrounded = true;
-                force.y = 0;
-               
-            }
-            else 
-                isGrounded = false;
-        }
-
-        if(hitGround == false && hitWater && waterHit.distance <= 0.8f){
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.25f , groundLayer);
+         publisher.updateGroundedStatus(isGrounded);
+        
+        if(isGrounded){
+            force.y = 0;
+            
            
-            publisher.updateSubmergedStatus();
-            playerSM.ChangeState(playerSM.moveState);
-        }else {
-            isGrounded = false;
+          
         }
 
-        // if(groundHit.distance < waterHit.distance && groundHit.distance <= 1){
-        //     isGrounded = true; 
-        //     force.y = 0;
-        // }
-        // if(groundHit.distance < waterHit.distance && groundHit.distance > 1){
-        //     isGrounded = false;
-        // }
-        // if (groundHit.distance > waterHit.distance && waterHit.distance >=2 ){
-        //     publisher.updateSubmergedStatus();
-        //     playerSM.ChangeState(playerSM.moveState);
-        // }
+        if(!isGrounded){
+            if( Physics.CheckSphere(groundCheck.position, 0.25f , waterLayer)){
+                publisher.updateYSpeedStatus(0);
+                publisher.updateSubmergedStatus();
+                playerSM.ChangeState(playerSM.moveState);
+            }
+        }
+       
+    }
 
-     
+    public void GroundCheck(){
+        RaycastHit hit;
+        Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, groundLayer);
+        Debug.Log("hit " + hit.point);
+        groundPoint = hit.point;
+    }
+
+     public void Exit(){
+        //   rigidbody.velocity = new Vector3(0,rigidbody.velocity.y, 0);
     }
 }
 
-
-   // if(( Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out groundHit, 15, groundLayer) && 
-        //     !Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out waterHit,  15, waterLayer)) && groundHit.distance <= 0.1){
-        //     isGrounded = true; 
-        //     force.y = 0;
-        // }
-        // else isGrounded = false;
-        
-        // if(Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out waterHit, 5, waterLayer) &&
-        //   !Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out groundHit, 15, groundLayer)){
-          
-          
-        //     force = new Vector3();
-        //     Debug.Log("Touching water "  + move.magnitude);
-        //     aboveWater = true;
-        //     publisher.updateSubmergedStatus();
-        //     playerSM.ChangeState(playerSM.moveState);
-        // }

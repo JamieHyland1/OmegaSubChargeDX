@@ -13672,9 +13672,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821c33a99c202364ba1926b3d054c15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GemHealth: 100
-  audioClip: {fileID: 0}
-  ui: {fileID: 945235188}
 --- !u!114 &799510841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14116,9 +14113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821c33a99c202364ba1926b3d054c15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GemHealth: 100
-  audioClip: {fileID: 0}
-  ui: {fileID: 92089517}
 --- !u!54 &847920801
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17599,6 +17593,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2172c60e0966eef459fd2c2da191740f, type: 3}
+--- !u!1 &1056690235 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8172918995276293243, guid: 03d8cbfedec4e5e40a13a582a3e4b752, type: 3}
+  m_PrefabInstance: {fileID: 8172918996163189600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1056690244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056690235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34188445d63974e4cb031313a45a391d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
 --- !u!1 &1060892613 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5fdf01cc28bb7384b8a159525c3958d2, type: 3}
@@ -19156,6 +19168,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MeshFormatVersion: 0
+  m_Faces: []
+  m_SharedVertices: []
+  m_SharedTextures: []
+  m_Positions: []
+  m_Textures0: []
+  m_Textures2: []
+  m_Textures3: []
+  m_Tangents: []
+  m_Colors: []
+  m_UnwrapParameters:
+    m_HardAngle: 88
+    m_PackMargin: 20
+    m_AngleError: 8
+    m_AreaError: 15
+  m_PreserveMeshAssetOnDestroy: 0
+  assetGuid: 
+  m_Mesh: {fileID: 0}
+  m_IsSelectable: 1
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!4 &1135342323
 Transform:
   m_ObjectHideFlags: 0
@@ -30836,9 +30870,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821c33a99c202364ba1926b3d054c15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GemHealth: 100
-  audioClip: {fileID: 0}
-  ui: {fileID: 1331698431}
 --- !u!114 &1966747270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34440,6 +34471,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1341437760426522231, guid: 03d8cbfedec4e5e40a13a582a3e4b752, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144109538863231147, guid: 03d8cbfedec4e5e40a13a582a3e4b752, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144109538863231147, guid: 03d8cbfedec4e5e40a13a582a3e4b752, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144109538863231147, guid: 03d8cbfedec4e5e40a13a582a3e4b752, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6777798408598481425, guid: 03d8cbfedec4e5e40a13a582a3e4b752, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7900356853447587452, guid: 03d8cbfedec4e5e40a13a582a3e4b752, type: 3}
       propertyPath: m_Enabled
       value: 0
