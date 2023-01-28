@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dash_Sound : MonoBehaviour
 {
-    private AudioSource audio;
+     AudioSource audio;
     public AudioClip whooshSound;
     private float counter = 1;
     private bool canPlay = true;

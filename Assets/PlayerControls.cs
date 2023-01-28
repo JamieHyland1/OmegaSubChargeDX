@@ -77,10 +77,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
-                    ""id"": ""c7b6edd8-db16-471d-bf48-1b0712ed7542"",
+                    ""id"": ""7ca3729b-2faa-4698-9c19-ee9ca1c84b33"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)""
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""8a0df67a-6df2-43a3-bfc6-7188ed05eb32"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -243,7 +251,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""id"": ""96d0d03c-b9ec-4617-97e2-b75e7434eab2"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.3)"",
+                    ""processors"": ""ScaleVector2(x=0.1)"",
                     ""groups"": """",
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
@@ -362,13 +370,35 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""c934f068-f075-4ca6-a70b-6225d1adb2e7"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Rise"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""312a54d9-f593-4e48-8b7a-4afc41d4520f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a3e1c61-977e-40f0-8e32-2d9fa01d3204"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -384,7 +414,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""67bc4e62-46f8-4ec0-bf6b-e24fa4af859c"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -417,13 +447,24 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""efaaa244-e988-4697-b62c-bfa456700c7f"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96807476-721e-49cb-82bb-e0dc0f76c2de"",
+                    ""path"": ""<DualShockGamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -483,7 +524,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""e3db2121-fe48-4590-8471-41f9e804d602"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -536,9 +577,97 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""778181e9-6f43-4c93-a82e-e2d75d507874"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""ca0d8c81-1d98-4c81-99e3-a4c7169174ef"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""74300a4a-5073-469d-aea5-3aec97ae230f"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e56e1922-9369-4a64-a4c3-ffac5d82de09"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""93e1003e-7e2f-4dd3-8770-39210032fffd"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
-                    ""id"": ""545857c1-2801-4328-bba7-9ed9810da335"",
+                    ""id"": ""75b8496e-6b70-430b-b33b-490d231c460e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d185fa2-1984-4739-9b37-d637ee910e98"",
                     ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3169c95-3814-465d-8acf-133e8dc59bb9"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""420b27a6-6ccc-497f-b83f-770c5d8d2429"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -635,6 +764,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""25f76430-8aaf-460a-bb4b-dd0a1b8534ba"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""beda6885-a27e-4c24-9622-e3e71d653bde"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
@@ -646,8 +786,41 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""942cd32b-3fbe-403e-9189-18e42a1204d5"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9336e21c-278f-4958-8f8a-028aaa0847a1"",
                     ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aed57cb4-b4c4-42c8-a8c6-296e6e6dfc34"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c8d1c6c-a6a4-4f11-9cdb-50c1a92f78f9"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -670,6 +843,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_WaterMove_Boost = m_WaterMove.FindAction("Boost", throwIfNotFound: true);
         m_WaterMove_Attack = m_WaterMove.FindAction("Attack", throwIfNotFound: true);
         m_WaterMove_Jump = m_WaterMove.FindAction("Jump", throwIfNotFound: true);
+        m_WaterMove_Move = m_WaterMove.FindAction("Move", throwIfNotFound: true);
         // GroundMove
         m_GroundMove = asset.FindActionMap("GroundMove", throwIfNotFound: true);
         m_GroundMove_Move = m_GroundMove.FindAction("Move", throwIfNotFound: true);
@@ -732,6 +906,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_WaterMove_Boost;
     private readonly InputAction m_WaterMove_Attack;
     private readonly InputAction m_WaterMove_Jump;
+    private readonly InputAction m_WaterMove_Move;
     public struct WaterMoveActions
     {
         private @PlayerControls m_Wrapper;
@@ -744,6 +919,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Boost => m_Wrapper.m_WaterMove_Boost;
         public InputAction @Attack => m_Wrapper.m_WaterMove_Attack;
         public InputAction @Jump => m_Wrapper.m_WaterMove_Jump;
+        public InputAction @Move => m_Wrapper.m_WaterMove_Move;
         public InputActionMap Get() { return m_Wrapper.m_WaterMove; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -777,6 +953,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnJump;
+                @Move.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMove;
             }
             m_Wrapper.m_WaterMoveActionsCallbackInterface = instance;
             if (instance != null)
@@ -805,6 +984,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
             }
         }
     }
@@ -868,6 +1050,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnBoost(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
     public interface IGroundMoveActions
     {

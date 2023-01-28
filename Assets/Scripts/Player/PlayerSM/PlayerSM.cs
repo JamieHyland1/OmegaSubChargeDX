@@ -82,6 +82,7 @@ using UnityEngine.InputSystem;
         [SerializeField] private Transform cam;
         [SerializeField] public Transform groundCheck;
         [SerializeField] public Transform wallCheck;
+        [SerializeField] public Transform waterSurfaceCheck;
         [SerializeField] private AnimationCurve accelCurve;
         [SerializeField] private AnimationCurve gravitylCurve;
         [SerializeField] ParticleSystem system;
@@ -123,12 +124,12 @@ using UnityEngine.InputSystem;
 
 
         private void Awake(){
-    
+            Application. targetFrameRate = 120;
             controls = new PlayerControls();
             rigidbody = GetComponent<Rigidbody>();
             playerTransform = this.gameObject.transform;
             controls.Enable();
-            moveState  = new MoveState(this, rigidbody, this.transform, groundCheck,  controls,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve, collider);
+            moveState  = new MoveState(this, rigidbody, this.transform, groundCheck, waterSurfaceCheck,  controls,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve, collider);
             groundMoveState = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck, collider);
         }
 
@@ -153,6 +154,13 @@ using UnityEngine.InputSystem;
     //         return (to - from) * ((value - from2) / (to2 - from2)) + from;
     //     }
     // }
+
+    void OnDrawGizmos()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+       // Gizmos.DrawSphere(transform.position, 7);
+    }
   
     }
 
