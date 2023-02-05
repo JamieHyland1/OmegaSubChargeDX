@@ -110,7 +110,7 @@ using UnityEngine.InputSystem;
         float slopeAngleThreshold = 44f;
         public float currentSpeed = 0;
         public Vector3 direction = new Vector2();
-        public BoxCollider collider;
+        public CapsuleCollider collider;
        
 
         enum States { WaterMove, GroundMove };
@@ -159,7 +159,12 @@ using UnityEngine.InputSystem;
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-       // Gizmos.DrawSphere(transform.position, 7);
+        Gizmos.DrawSphere(transform.position, 0.5f);
+        LayerMask groundLayer = LayerMask.GetMask("Level Geometry");
+        RaycastHit hit;
+        Physics.Raycast(groundCheck.position + Vector3.up, this.transform.TransformDirection(Vector3.forward), out hit, 5, groundLayer);
+        // Gizmos.DrawSphere(hit.point,1);
+         Gizmos.DrawLine(hit.point, hit.point + hit.normal * 6);
     }
   
     }

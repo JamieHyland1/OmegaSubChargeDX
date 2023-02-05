@@ -22,23 +22,24 @@ public class GroundMoveState : IState{
     Vector3 prevVel;
     Vector3 groundPoint;
     float turnSmoothVelocity = 6000;
-    float speed = 350;
+    float speed = 400;
     float angle;
     float targetAngle;
     float currentSpeed;
     float currentYSpeed;
     float gravity = -9.8f;
+    float groundedGravity = -5.25f;
     float currentGravity;
     float initialJumpVelocity;
     float timeToPeak;
     float maxJumpHeight = 5;
     float maxJumpTime = .5f;
-    float dragForce = 6.5f;
+    float dragForce = 8.5f;
     PlayerEventPublisher publisher;
-    BoxCollider collider;
+    CapsuleCollider collider;
 
 
-    public GroundMoveState(PlayerSM playerSM, Rigidbody rigidboy, PlayerControls controls, Transform playerTransform, Transform groundCheck, BoxCollider collider){
+    public GroundMoveState(PlayerSM playerSM, Rigidbody rigidboy, PlayerControls controls, Transform playerTransform, Transform groundCheck, CapsuleCollider collider){
         this.playerSM = playerSM;
         this.rigidbody = rigidbody;
         this.playerTransform = playerTransform;
@@ -50,8 +51,16 @@ public class GroundMoveState : IState{
     
     public void Enter(){
         
-        collider.center = new Vector3(0,4.5f,0);
-        collider.size = new Vector3(5f,9,5f);
+        //height 9
+        // radius 1.888
+        // direction z
+        // collider.center = new Vector3(0,4.5f,0);
+        // collider.size = new Vector3(5f,9,5f);
+
+        collider.radius = 1.88f;
+        collider.height = 9;
+        collider.direction = 1;
+        collider.center = new Vector3(0,4.65f,0);
        
         groundLayer = LayerMask.GetMask("Level Geometry");
         waterLayer  = LayerMask.GetMask("Water");
@@ -80,14 +89,16 @@ public class GroundMoveState : IState{
         prevPos = playerTransform.position;  
         prevVel = rigidbody.velocity;
            // The Drag component of unitys rigidbody is messing with our jump formula, so set  the rigidbodys drag to 0 in the inspector and add the drag to the x,z axis ourselves leaving the y component dragless
-      
+       
        
         ApplyRotation();
+
+       
         //apply force to rigidbody
-        rigidbody.AddForce(force);
+        rigidbody.AddForce(force, ForceMode.Force);
     
         Vector3 currentVelocity =  rigidbody.velocity * ( 1 - Time.fixedDeltaTime * dragForce);
-        rigidbody.velocity = new Vector3(currentVelocity.x, rigidbody.velocity.y, currentVelocity.z);
+        if(!isGrounded)rigidbody.velocity = new Vector3(currentVelocity.x, rigidbody.velocity.y, currentVelocity.z); else rigidbody.velocity = currentVelocity;
         Debug.Log("velocity " + rigidbody.velocity + " force " + force);
         
         // force.x = 0f;
@@ -106,7 +117,9 @@ public class GroundMoveState : IState{
         CheckStatus();
       
         move = controls.GroundMove.Move.ReadValue<Vector2>();
-      
+        
+        SlopeCheck();
+
         currentSpeed  = Vector3.Distance(new Vector3(prevPos.x,0,prevPos.z), new Vector3(playerTransform.position.x, 0, playerTransform.position.z))/Time.deltaTime;
         currentYSpeed = Vector3.Distance(new Vector3(0,prevPos.y,0), new Vector3(0, playerTransform.position.y, 0))/Time.deltaTime;
         
@@ -162,7 +175,7 @@ public class GroundMoveState : IState{
             nextYvelocity = (previousYVelocity + newYVelocity) * 0.5f;
         }
 
-        if(!isGrounded)force.y += Mathf.Max(nextYvelocity,-500) * Time.fixedDeltaTime;
+        if(!isGrounded)force.y += Mathf.Max(nextYvelocity,-500) * Time.fixedDeltaTime; else force.y += groundedGravity * Time.fixedDeltaTime;
     }
 
     void ApplyRotation(){
@@ -185,13 +198,14 @@ public class GroundMoveState : IState{
             force.x = 0;
             force.z = 0;
         }
+        // Debug.DrawRay(groundCheck.position, playerTransform.forward * 5, Color.magenta,0.2f,  false);
     }
 
     // This method is to check wether the mech should be in its land state or water state
 
     public void CheckStatus(){
         RaycastHit groundHit, waterHit;
-        isGrounded = Physics.CheckSphere(groundCheck.position, 0.25f , groundLayer);
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.55f , groundLayer);
          publisher.updateGroundedStatus(isGrounded);
         
         if(isGrounded){
@@ -213,9 +227,49 @@ public class GroundMoveState : IState{
 
     public void GroundCheck(){
         RaycastHit hit;
-        Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, groundLayer);
-        Debug.Log("hit " + hit.point);
+        Physics.Raycast(groundCheck.position, Vector3.down, out hit, 0.2f, groundLayer);
+        Debug.Log("hit " + hit.distance);
         groundPoint = hit.point;
+        if(hit.distance <= 8){
+            
+           // playerTransform.position = new Vector3(playerTransform.position.x, hit.point.y, playerTransform.position.z);
+        
+        }
+    }
+
+
+    public void SlopeCheck(){
+        RaycastHit downHit;
+       
+        Physics.Raycast(groundCheck.position + Vector3.up,playerTransform.TransformDirection(Vector3.down), out downHit, 5.1f, groundLayer);
+        // Physics.Raycast(groundCheck.position + Vector3.up,playerTransform.TransformDirection(Vector3.down), out downHit, 1.1f, groundLayer);
+        Debug.DrawRay(groundCheck.position, downHit.normal , Color.red ,5f);
+
+        
+        Vector3 localHitNormal = playerTransform.InverseTransformDirection(downHit.normal);
+        
+        float slopeAngle  =  Vector3.Angle(localHitNormal,groundCheck.up);
+        Debug.Log("Slope " + slopeAngle);
+          if(slopeAngle != 0 && slopeAngle < 47.5f){
+            // Quaternion slopeAngleRotation = Quaternion.FromToRotation(groundCheck.up,localHitNormal);
+            // Debug.Log("rotation " + slopeAngleRotation);
+            // Vector3 newForce = (slopeAngleRotation * force);
+            // newForce.y *=  -1;
+            // Debug.DrawRay(groundCheck.position, newForce , Color.red ,5f);
+            // Debug.Log("New Force " + newForce );
+            // force = newForce;
+
+            Vector3 newForce = Vector3.ProjectOnPlane(force,downHit.normal);
+          
+            // newForce.y +=  downHit.normal.y;
+            newForce.y = Mathf.Min(newForce.y, 5);
+              Debug.Log("normal " + newForce.y );
+            force = newForce;
+           Debug.DrawRay(groundCheck.position, newForce, Color.white, 0.2f);
+           // transform.rotation = slopeAngleRotation;
+           // force.y *= -1;
+          }
+        
     }
 
      public void Exit(){

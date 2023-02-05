@@ -18,7 +18,7 @@ public class MoveState : IState
     Rigidbody rigidbody;
     Camera camera;
     PlayerEventPublisher publisher;
-    BoxCollider collider;
+    CapsuleCollider collider;
 
     Vector2 move;
     Vector2 mouseMove;
@@ -75,7 +75,7 @@ public class MoveState : IState
 
     
       
-        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck, Transform waterSurfaceCheck,  PlayerControls controls,  Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve, BoxCollider collider){
+        public MoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck, Transform waterSurfaceCheck,  PlayerControls controls,  Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve, CapsuleCollider collider){
             playerSM = _playerSM;
             this.rigidbody = rigidbody;
             this.playerTransform = playerTransform;
@@ -94,9 +94,12 @@ public class MoveState : IState
         
         public void Enter(){
             publisher = new PlayerEventPublisher();
-            collider.center = new Vector3(0f,2.5f,-0.77f);
-            collider.size = new Vector3(5f,5f,8.5f);
-            
+            // collider.center = new Vector3(0f,2.5f,-0.77f);
+            // collider.size = new Vector3(5f,5f,8.5f);
+            collider.center = new Vector3(0,1.5f,-0.7f);
+            collider.radius = 1.64f;
+            collider.height = 7.83f;
+            collider.direction = 2;
             waterLayer  = LayerMask.GetMask("Water");
             groundLayer = LayerMask.GetMask("Level Geometry");
             
@@ -128,7 +131,10 @@ public class MoveState : IState
         
 
             rigidbody.MoveRotation(Quaternion.Euler(0,angle  * Time.timeScale,0));
-        
+
+
+            Debug.Log("Force " + force + " submerged " + submerged + " on Surface " + onSurface);
+
             rigidbody.AddForce(force);
 
             ApplyGravity();
@@ -137,8 +143,8 @@ public class MoveState : IState
             force.x = 0;
             force.z = 0;
            
-             if(submerged)force.y = 0;
-             if(onSurface )rigidbody.velocity = new Vector3(rigidbody.velocity.x,0,rigidbody.velocity.z);
+            if(submerged)force.y = 0;
+            if(onSurface && !jumping && rigidbody.velocity.y > 0)rigidbody.velocity = new Vector3(rigidbody.velocity.x,0,rigidbody.velocity.z);
             Vector3 currentVelocity =  rigidbody.velocity * ( 1 - Time.fixedDeltaTime * dragForce);
             if(submerged)rigidbody.velocity = currentVelocity; else rigidbody.velocity = new Vector3(currentVelocity.x, rigidbody.velocity.y, currentVelocity.z);
             
@@ -209,20 +215,14 @@ public class MoveState : IState
         }
 
         void CheckSubmergedStatus(){
-            RaycastHit hit,hit2;
             RaycastHit groundHit;
+            submerged = (Physics.OverlapSphere(playerTransform.position, 0.5f, waterLayer).Length > 0);    
 
-            submerged = ((Physics.Raycast(playerTransform.position,  playerTransform.TransformDirection(Vector3.up),   out hit,  Mathf.Infinity, waterLayer)
-                    &&   !Physics.Raycast(playerTransform.position,  playerTransform.TransformDirection(Vector3.down), out hit2, Mathf.Infinity, waterLayer)) 
-                    ||   (Physics.OverlapSphere(playerTransform.position, 3.5f, waterLayer).Length > 0));
+           
 
-            
-            distanceToSurface = hit.distance;
-            onSurface = Physics.CheckSphere(waterSurfaceCheck.position, 0.1f , waterLayer);
-
-            aboveWater = Physics.Raycast(playerTransform.position,  playerTransform.TransformDirection(Vector3.down), out hit2, Mathf.Infinity, waterLayer);
-
+            onSurface = !Physics.CheckSphere(waterSurfaceCheck.position, 0.25f, waterLayer);       
             if(Physics.Raycast(playerTransform.position, playerTransform.TransformDirection(Vector3.down), out groundHit, 15, groundLayer) && !submerged){
+                Debug.Log("Submerged " + submerged); 
                 rigidbody.velocity = new Vector3();
                 publisher.updateTransformStatus();
                 playerSM.ChangeState(playerSM.groundMoveState);
@@ -238,10 +238,12 @@ public class MoveState : IState
 
 
             if(isFalling){
+                Debug.Log("T1");
                 float newYVelocity = force.y + currentGravity * fallMultiplier;
                 nextYvelocity = (previousYVelocity + newYVelocity) * 0.5f;
                 
             }else{
+                Debug.Log("T2");
                 float newYVelocity = force.y + currentGravity;
                 nextYvelocity = (previousYVelocity + newYVelocity) * 0.5f;
             }
@@ -251,7 +253,7 @@ public class MoveState : IState
 
         void HandleJump(){
             
-            if(jumpPressed && onSurface &&  !jumping){
+            if(jumpPressed && !jumping && onSurface){
                 rigidbody.AddForce(Vector3.up * initialJumpVelocity, ForceMode.Impulse);
                 jumping = true;
             }
