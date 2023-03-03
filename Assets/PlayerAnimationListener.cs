@@ -23,10 +23,12 @@ public class PlayerAnimationListener : MonoBehaviour
     }
     
     public void OnRisingUpdate(object source, bool rising){
+        Debug.Log("Rising  t" + SubAnimator.GetBool("Rising"));
         SubAnimator.SetBool("Rising",  rising);
     }
 
     public void OnFallingUpdate(object source, bool falling){
+        Debug.Log("Falling " + falling);
         SubAnimator.SetBool("Falling", falling);
     }
 
@@ -84,7 +86,7 @@ public class PlayerAnimationListener : MonoBehaviour
         PlayerEventPublisher.groundedEvent    -= OnGroundedUpdate;
         PlayerEventPublisher.submergedEvent   -= OnSubmergedUpdate;
         PlayerEventPublisher.onLandEvent      -= OnLandUpdate;
-        PlayerEventPublisher.jumpEvent       -= OnJumpedUpdate;
+        PlayerEventPublisher.jumpEvent        -= OnJumpedUpdate;
     }
     
 }

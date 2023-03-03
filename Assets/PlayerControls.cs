@@ -24,6 +24,193 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
+            ""name"": ""GroundMove"",
+            ""id"": ""eaecacda-db4d-4f22-8f7e-2a0e1cf3f0c2"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""1c6f0585-fbd0-4e24-a038-254a7b540b02"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""d21e643f-0386-42b5-b13a-d8a42dc7c439"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": ""Scale(factor=0.1)"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""27861bd6-181d-4137-be3d-bbe507a9459d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap(duration=0.5)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""51f25f5b-1735-4d9c-b77c-a2240e22fdda"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""909126fb-a505-4b60-9114-340c2f1b4ff0"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f279d315-f118-46f0-a844-589b305a1105"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""7cf3c08e-1ce5-4a6e-985d-c4ac82418a75"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""0875df92-377f-45b5-b480-df24584721d7"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""242ac25c-9efd-4c1a-afdb-e358a5423f83"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25f76430-8aaf-460a-bb4b-dd0a1b8534ba"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""beda6885-a27e-4c24-9622-e3e71d653bde"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""ScaleVector2(x=0.1,y=0.25)"",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""942cd32b-3fbe-403e-9189-18e42a1204d5"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9336e21c-278f-4958-8f8a-028aaa0847a1"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aed57cb4-b4c4-42c8-a8c6-296e6e6dfc34"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c8d1c6c-a6a4-4f11-9cdb-50c1a92f78f9"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccb2e29a-aa73-4742-8445-1ae29ccabcc6"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61192204-a16d-4f2c-bbdc-dc4776311673"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""WaterMove"",
             ""id"": ""e8a865ae-1c37-4c53-8eca-aea200a30cd4"",
             ""actions"": [
@@ -696,129 +883,32 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""GroundMove"",
-            ""id"": ""eaecacda-db4d-4f22-8f7e-2a0e1cf3f0c2"",
+            ""name"": ""LedgeGrab"",
+            ""id"": ""44d78c56-b3c2-40ec-9dac-587a01636be4"",
             ""actions"": [
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""e91fb130-0c3e-4604-a969-be84a560ae55"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap(duration=0.5)"",
+                    ""initialStateCheck"": false
+                },
                 {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
-                    ""id"": ""1c6f0585-fbd0-4e24-a038-254a7b540b02"",
+                    ""id"": ""272f5569-7af5-4720-9bd6-a899d2da8164"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Rotate"",
-                    ""type"": ""Button"",
-                    ""id"": ""d21e643f-0386-42b5-b13a-d8a42dc7c439"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""27861bd6-181d-4137-be3d-bbe507a9459d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""909126fb-a505-4b60-9114-340c2f1b4ff0"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""f279d315-f118-46f0-a844-589b305a1105"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""7cf3c08e-1ce5-4a6e-985d-c4ac82418a75"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""0875df92-377f-45b5-b480-df24584721d7"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""242ac25c-9efd-4c1a-afdb-e358a5423f83"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
-                    ""id"": ""25f76430-8aaf-460a-bb4b-dd0a1b8534ba"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""beda6885-a27e-4c24-9622-e3e71d653bde"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.3)"",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""942cd32b-3fbe-403e-9189-18e42a1204d5"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9336e21c-278f-4958-8f8a-028aaa0847a1"",
+                    ""id"": ""9bb9b183-158c-4451-b5fe-28a0889c54da"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -829,7 +919,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""aed57cb4-b4c4-42c8-a8c6-296e6e6dfc34"",
+                    ""id"": ""d99ad111-891a-4a5a-8f42-ce03ddaa1534"",
                     ""path"": ""<DualShockGamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -840,12 +930,78 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2c8d1c6c-a6a4-4f11-9cdb-50c1a92f78f9"",
+                    ""id"": ""708d2d53-eb0c-4d6f-bb94-57598a728dc4"",
                     ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""28d9fa3a-2f1b-4ee8-8b3c-ac017f25c7b0"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""833b6e01-fe09-4adf-b01a-62cb5e70295e"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""1a81dab1-524c-481f-a213-3ddca1d9d4e0"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""1a5db7b3-0d33-4e9c-a885-917becd33247"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5fbcd7bc-a6e2-4865-9777-1d020840e7d5"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd6c6dd3-9cbb-4245-9f26-e3a942f8d79e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -854,6 +1010,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
+        // GroundMove
+        m_GroundMove = asset.FindActionMap("GroundMove", throwIfNotFound: true);
+        m_GroundMove_Move = m_GroundMove.FindAction("Move", throwIfNotFound: true);
+        m_GroundMove_Rotate = m_GroundMove.FindAction("Rotate", throwIfNotFound: true);
+        m_GroundMove_Jump = m_GroundMove.FindAction("Jump", throwIfNotFound: true);
+        m_GroundMove_Dash = m_GroundMove.FindAction("Dash", throwIfNotFound: true);
         // WaterMove
         m_WaterMove = asset.FindActionMap("WaterMove", throwIfNotFound: true);
         m_WaterMove_Turn = m_WaterMove.FindAction("Turn", throwIfNotFound: true);
@@ -865,11 +1027,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_WaterMove_Attack = m_WaterMove.FindAction("Attack", throwIfNotFound: true);
         m_WaterMove_Jump = m_WaterMove.FindAction("Jump", throwIfNotFound: true);
         m_WaterMove_Move = m_WaterMove.FindAction("Move", throwIfNotFound: true);
-        // GroundMove
-        m_GroundMove = asset.FindActionMap("GroundMove", throwIfNotFound: true);
-        m_GroundMove_Move = m_GroundMove.FindAction("Move", throwIfNotFound: true);
-        m_GroundMove_Rotate = m_GroundMove.FindAction("Rotate", throwIfNotFound: true);
-        m_GroundMove_Jump = m_GroundMove.FindAction("Jump", throwIfNotFound: true);
+        // LedgeGrab
+        m_LedgeGrab = asset.FindActionMap("LedgeGrab", throwIfNotFound: true);
+        m_LedgeGrab_Jump = m_LedgeGrab.FindAction("Jump", throwIfNotFound: true);
+        m_LedgeGrab_Move = m_LedgeGrab.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -925,6 +1086,63 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         return asset.FindBinding(bindingMask, out action);
     }
+
+    // GroundMove
+    private readonly InputActionMap m_GroundMove;
+    private IGroundMoveActions m_GroundMoveActionsCallbackInterface;
+    private readonly InputAction m_GroundMove_Move;
+    private readonly InputAction m_GroundMove_Rotate;
+    private readonly InputAction m_GroundMove_Jump;
+    private readonly InputAction m_GroundMove_Dash;
+    public struct GroundMoveActions
+    {
+        private @PlayerControls m_Wrapper;
+        public GroundMoveActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_GroundMove_Move;
+        public InputAction @Rotate => m_Wrapper.m_GroundMove_Rotate;
+        public InputAction @Jump => m_Wrapper.m_GroundMove_Jump;
+        public InputAction @Dash => m_Wrapper.m_GroundMove_Dash;
+        public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GroundMoveActions set) { return set.Get(); }
+        public void SetCallbacks(IGroundMoveActions instance)
+        {
+            if (m_Wrapper.m_GroundMoveActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
+                @Rotate.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
+                @Jump.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnJump;
+                @Dash.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnDash;
+            }
+            m_Wrapper.m_GroundMoveActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+            }
+        }
+    }
+    public GroundMoveActions @GroundMove => new GroundMoveActions(this);
 
     // WaterMove
     private readonly InputActionMap m_WaterMove;
@@ -1023,54 +1241,53 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     }
     public WaterMoveActions @WaterMove => new WaterMoveActions(this);
 
-    // GroundMove
-    private readonly InputActionMap m_GroundMove;
-    private IGroundMoveActions m_GroundMoveActionsCallbackInterface;
-    private readonly InputAction m_GroundMove_Move;
-    private readonly InputAction m_GroundMove_Rotate;
-    private readonly InputAction m_GroundMove_Jump;
-    public struct GroundMoveActions
+    // LedgeGrab
+    private readonly InputActionMap m_LedgeGrab;
+    private ILedgeGrabActions m_LedgeGrabActionsCallbackInterface;
+    private readonly InputAction m_LedgeGrab_Jump;
+    private readonly InputAction m_LedgeGrab_Move;
+    public struct LedgeGrabActions
     {
         private @PlayerControls m_Wrapper;
-        public GroundMoveActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_GroundMove_Move;
-        public InputAction @Rotate => m_Wrapper.m_GroundMove_Rotate;
-        public InputAction @Jump => m_Wrapper.m_GroundMove_Jump;
-        public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
+        public LedgeGrabActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Jump => m_Wrapper.m_LedgeGrab_Jump;
+        public InputAction @Move => m_Wrapper.m_LedgeGrab_Move;
+        public InputActionMap Get() { return m_Wrapper.m_LedgeGrab; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GroundMoveActions set) { return set.Get(); }
-        public void SetCallbacks(IGroundMoveActions instance)
+        public static implicit operator InputActionMap(LedgeGrabActions set) { return set.Get(); }
+        public void SetCallbacks(ILedgeGrabActions instance)
         {
-            if (m_Wrapper.m_GroundMoveActionsCallbackInterface != null)
+            if (m_Wrapper.m_LedgeGrabActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMove;
-                @Rotate.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
-                @Rotate.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
-                @Rotate.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnRotate;
-                @Jump.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnJump;
+                @Jump.started -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnJump;
+                @Move.started -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnMove;
             }
-            m_Wrapper.m_GroundMoveActionsCallbackInterface = instance;
+            m_Wrapper.m_LedgeGrabActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
-                @Rotate.started += instance.OnRotate;
-                @Rotate.performed += instance.OnRotate;
-                @Rotate.canceled += instance.OnRotate;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
             }
         }
     }
-    public GroundMoveActions @GroundMove => new GroundMoveActions(this);
+    public LedgeGrabActions @LedgeGrab => new LedgeGrabActions(this);
+    public interface IGroundMoveActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+    }
     public interface IWaterMoveActions
     {
         void OnTurn(InputAction.CallbackContext context);
@@ -1083,10 +1300,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
     }
-    public interface IGroundMoveActions
+    public interface ILedgeGrabActions
     {
-        void OnMove(InputAction.CallbackContext context);
-        void OnRotate(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
 }
