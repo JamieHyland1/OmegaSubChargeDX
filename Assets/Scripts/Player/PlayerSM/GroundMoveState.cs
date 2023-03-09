@@ -23,8 +23,9 @@ public class GroundMoveState : IState{
     bool _jumpPressed;
     bool _jumpHeld;
     bool _dashing;
+    private bool lockOnPressed;
     float _turnSmoothVelocity = 6000;
-    private const float Speed = 250;
+    private const float Speed = 275;
     private const float airMoveSpeed = 200;
     float _angle;
     float _targetAngle;
@@ -36,7 +37,7 @@ public class GroundMoveState : IState{
     float initialJumpVelocity;
     float timeToPeak;
     readonly float maxJumpHeight = 2.5f;
-    readonly float maxJumpTime = .25f;
+    readonly float maxJumpTime = .2f;
     readonly float wallCheckDistance = 0.3f;
     readonly float ledgeCheckDistance = 0.4f;
     readonly float dragForce = 8.5f;
@@ -70,7 +71,6 @@ public class GroundMoveState : IState{
         _waterLayer  = LayerMask.GetMask("Water");
          // _rigidbody = _playerSm.GetComponent<Rigidbody>();
         _force = new Vector3();
-        Debug.Log("Ground move state");
         _camera = Camera.main;
         
         publisher.updateOnLandStatus();
@@ -81,7 +81,9 @@ public class GroundMoveState : IState{
         _controls.GroundMove.Move.canceled += OnMove;
         _controls.GroundMove.Dash.performed += OnDash;
         _controls.GroundMove.Dash.canceled += OnDash;
-
+        _controls.GroundMove.Lockon.performed += HandleLockOn;
+        _controls.GroundMove.Lockon.canceled += HandleLockOn;
+        
         timeToPeak = maxJumpTime/2;
         gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToPeak,2);
         initialJumpVelocity = 2 * maxJumpHeight/timeToPeak;
@@ -92,9 +94,12 @@ public class GroundMoveState : IState{
     }
     public void FixedTick(){
 
-        _prevPos = _playerTransform.position;  
-       
-        ApplyRotation();
+        _prevPos = _playerTransform.position;
+
+        if (!lockOnPressed)
+        {
+            ApplyRotation();
+        }
 
         _rigidbody.AddForce(_force, ForceMode.Force);
     
@@ -112,14 +117,13 @@ public class GroundMoveState : IState{
         CheckStatus();
       
         _move = _controls.GroundMove.Move.ReadValue<Vector2>();
-         Debug.Log("Grounded " + _isGrounded);
         
         SlopeCheck();
         //we only wanna check for ledges when we're falling
         CheckForLedges();
         currentSpeed  = Vector3.Distance(new Vector3(_prevPos.x,0,_prevPos.z), new Vector3(_playerTransform.position.x, 0, _playerTransform.position.z))/Time.deltaTime;
         currentYSpeed = Vector3.Distance(new Vector3(0,_prevPos.y,0), new Vector3(0, _playerTransform.position.y, 0))/Time.deltaTime;
-        
+       
         publisher.updateSpeedStatus(_move.magnitude);
         publisher.updateYSpeedStatus(-currentYSpeed);
         Debug.DrawLine(_prevPos, _playerTransform.position, Color.black,2f);
@@ -151,7 +155,7 @@ public class GroundMoveState : IState{
         RaycastHit wallHit;
         RaycastHit ledgeHit;
 
-        if (Physics.Linecast(_ledgeCheck.position, _ledgeCheck.position + Vector3.down * 0.5f, out ledgeHit,_groundLayer))
+        if (Physics.Linecast(_ledgeCheck.position, _ledgeCheck.position + Vector3.down , out ledgeHit,_groundLayer))
         {
             //If we cant detect a wall below the edge it might not be a ledge
             Ray wallRay = new Ray(_wallCheck.position,_playerTransform.forward);
@@ -243,7 +247,6 @@ public class GroundMoveState : IState{
         if(_isGrounded){
             _force.y = 0;
             currentJumps = maxJumps;
-            Debug.Log("reset jumos");
         }
         if(!_isGrounded){
             if( Physics.CheckSphere(_groundCheck.position, 0.25f , _waterLayer)){
@@ -269,14 +272,29 @@ public class GroundMoveState : IState{
             Debug.DrawRay(_groundCheck.position, newForce, Color.white, 0.2f);
         }
     }
+    void HandleLockOn(InputAction.CallbackContext context)
+    {
+        
+        if (context.performed)
+        {
+            lockOnPressed = !lockOnPressed;
+            Debug.Log("Lock on event " + lockOnPressed);
+        }
+        publisher.targetEnemy(lockOnPressed);
+       
+    }
+
+    
+
     public void Exit(){
-        //   rigidbody.velocity = new Vector3(0,rigidbody.velocity.y, 0);
         _controls.GroundMove.Jump.performed -= OnJump;
         _controls.GroundMove.Jump.canceled  -= OnJump;
         _controls.GroundMove.Move.performed -= OnMove;
         _controls.GroundMove.Move.canceled  -= OnMove;
         _controls.GroundMove.Dash.performed -= OnDash;
         _controls.GroundMove.Dash.canceled  -= OnDash;
+        _controls.GroundMove.Lockon.performed -= HandleLockOn;
+        _controls.GroundMove.Lockon.canceled -= HandleLockOn;
     }
 }
 

@@ -38,12 +38,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Rotate"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""d21e643f-0386-42b5-b13a-d8a42dc7c439"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": ""Scale(factor=0.1)"",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Jump"",
@@ -62,6 +62,42 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""L1"",
+                    ""type"": ""Button"",
+                    ""id"": ""243bdd3b-8132-497b-b19f-fb72f47778f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""R1"",
+                    ""type"": ""Button"",
+                    ""id"": ""19fb52ff-ee50-47ab-9c75-1ffbf64890e1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveCursor"",
+                    ""type"": ""Value"",
+                    ""id"": ""718bf39c-4d42-4205-954e-278f36d2e362"",
+                    ""expectedControlType"": ""Dpad"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Lockon"",
+                    ""type"": ""Value"",
+                    ""id"": ""faaaaffe-9971-4867-b28b-b96f363dfbb3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -145,7 +181,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""942cd32b-3fbe-403e-9189-18e42a1204d5"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -205,6 +241,83 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e159a0cd-e949-4339-9abf-89e18ae64978"",
+                    ""path"": ""<Keyboard>/capsLock"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""L1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66a6bd6d-1572-44b9-a661-a8198961eb99"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""L1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a266d4cd-4082-41f6-ac5e-c3bffcaeb7c0"",
+                    ""path"": ""<Keyboard>/capsLock"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""369e6833-3918-4b72-9ab5-e6b0ae3cc260"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c258018d-afd6-4283-92cd-b880adb1e4ce"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eba092c0-b713-48be-b79c-c750a0d1e419"",
+                    ""path"": ""<XInputController>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lockon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ceb36fc0-6a54-4673-8356-add441d7eef9"",
+                    ""path"": ""<Keyboard>/capsLock"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lockon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -274,7 +387,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""id"": ""ff9e56f7-9aee-41e6-9494-25b2886cb61d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap(duration=0.5)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -294,6 +407,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveCursor"",
+                    ""type"": ""Value"",
+                    ""id"": ""09814fe0-3f76-4fd9-b7f9-fca65b0cec8f"",
+                    ""expectedControlType"": ""Dpad"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Lockon"",
+                    ""type"": ""Button"",
+                    ""id"": ""75bd9bdc-a5ab-4cfc-92cc-c21bbd0d2d66"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -773,7 +904,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""21395db8-4ff6-4a60-8a01-5f09176d4ea6"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65495893-6dd6-42aa-973e-7826bb8bc639"",
+                    ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -877,6 +1019,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32d2ffe4-8a22-4d15-92f2-88a7e54f4c96"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95c9ac10-58fa-445f-9ad6-3130e73bec46"",
+                    ""path"": ""<XInputController>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lockon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38daf438-48f9-4e11-8191-42c59f728380"",
+                    ""path"": ""<Keyboard>/capsLock"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lockon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1016,6 +1191,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_GroundMove_Rotate = m_GroundMove.FindAction("Rotate", throwIfNotFound: true);
         m_GroundMove_Jump = m_GroundMove.FindAction("Jump", throwIfNotFound: true);
         m_GroundMove_Dash = m_GroundMove.FindAction("Dash", throwIfNotFound: true);
+        m_GroundMove_L1 = m_GroundMove.FindAction("L1", throwIfNotFound: true);
+        m_GroundMove_R1 = m_GroundMove.FindAction("R1", throwIfNotFound: true);
+        m_GroundMove_MoveCursor = m_GroundMove.FindAction("MoveCursor", throwIfNotFound: true);
+        m_GroundMove_Lockon = m_GroundMove.FindAction("Lockon", throwIfNotFound: true);
         // WaterMove
         m_WaterMove = asset.FindActionMap("WaterMove", throwIfNotFound: true);
         m_WaterMove_Turn = m_WaterMove.FindAction("Turn", throwIfNotFound: true);
@@ -1027,6 +1206,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_WaterMove_Attack = m_WaterMove.FindAction("Attack", throwIfNotFound: true);
         m_WaterMove_Jump = m_WaterMove.FindAction("Jump", throwIfNotFound: true);
         m_WaterMove_Move = m_WaterMove.FindAction("Move", throwIfNotFound: true);
+        m_WaterMove_MoveCursor = m_WaterMove.FindAction("MoveCursor", throwIfNotFound: true);
+        m_WaterMove_Lockon = m_WaterMove.FindAction("Lockon", throwIfNotFound: true);
         // LedgeGrab
         m_LedgeGrab = asset.FindActionMap("LedgeGrab", throwIfNotFound: true);
         m_LedgeGrab_Jump = m_LedgeGrab.FindAction("Jump", throwIfNotFound: true);
@@ -1094,6 +1275,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_GroundMove_Rotate;
     private readonly InputAction m_GroundMove_Jump;
     private readonly InputAction m_GroundMove_Dash;
+    private readonly InputAction m_GroundMove_L1;
+    private readonly InputAction m_GroundMove_R1;
+    private readonly InputAction m_GroundMove_MoveCursor;
+    private readonly InputAction m_GroundMove_Lockon;
     public struct GroundMoveActions
     {
         private @PlayerControls m_Wrapper;
@@ -1102,6 +1287,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_GroundMove_Rotate;
         public InputAction @Jump => m_Wrapper.m_GroundMove_Jump;
         public InputAction @Dash => m_Wrapper.m_GroundMove_Dash;
+        public InputAction @L1 => m_Wrapper.m_GroundMove_L1;
+        public InputAction @R1 => m_Wrapper.m_GroundMove_R1;
+        public InputAction @MoveCursor => m_Wrapper.m_GroundMove_MoveCursor;
+        public InputAction @Lockon => m_Wrapper.m_GroundMove_Lockon;
         public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1123,6 +1312,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Dash.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnDash;
+                @L1.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnL1;
+                @L1.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnL1;
+                @L1.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnL1;
+                @R1.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnR1;
+                @R1.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnR1;
+                @R1.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnR1;
+                @MoveCursor.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMoveCursor;
+                @MoveCursor.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMoveCursor;
+                @MoveCursor.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnMoveCursor;
+                @Lockon.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnLockon;
+                @Lockon.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnLockon;
+                @Lockon.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnLockon;
             }
             m_Wrapper.m_GroundMoveActionsCallbackInterface = instance;
             if (instance != null)
@@ -1139,6 +1340,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @L1.started += instance.OnL1;
+                @L1.performed += instance.OnL1;
+                @L1.canceled += instance.OnL1;
+                @R1.started += instance.OnR1;
+                @R1.performed += instance.OnR1;
+                @R1.canceled += instance.OnR1;
+                @MoveCursor.started += instance.OnMoveCursor;
+                @MoveCursor.performed += instance.OnMoveCursor;
+                @MoveCursor.canceled += instance.OnMoveCursor;
+                @Lockon.started += instance.OnLockon;
+                @Lockon.performed += instance.OnLockon;
+                @Lockon.canceled += instance.OnLockon;
             }
         }
     }
@@ -1156,6 +1369,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_WaterMove_Attack;
     private readonly InputAction m_WaterMove_Jump;
     private readonly InputAction m_WaterMove_Move;
+    private readonly InputAction m_WaterMove_MoveCursor;
+    private readonly InputAction m_WaterMove_Lockon;
     public struct WaterMoveActions
     {
         private @PlayerControls m_Wrapper;
@@ -1169,6 +1384,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_WaterMove_Attack;
         public InputAction @Jump => m_Wrapper.m_WaterMove_Jump;
         public InputAction @Move => m_Wrapper.m_WaterMove_Move;
+        public InputAction @MoveCursor => m_Wrapper.m_WaterMove_MoveCursor;
+        public InputAction @Lockon => m_Wrapper.m_WaterMove_Lockon;
         public InputActionMap Get() { return m_Wrapper.m_WaterMove; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1205,6 +1422,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMove;
+                @MoveCursor.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMoveCursor;
+                @MoveCursor.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMoveCursor;
+                @MoveCursor.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnMoveCursor;
+                @Lockon.started -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnLockon;
+                @Lockon.performed -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnLockon;
+                @Lockon.canceled -= m_Wrapper.m_WaterMoveActionsCallbackInterface.OnLockon;
             }
             m_Wrapper.m_WaterMoveActionsCallbackInterface = instance;
             if (instance != null)
@@ -1236,6 +1459,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @MoveCursor.started += instance.OnMoveCursor;
+                @MoveCursor.performed += instance.OnMoveCursor;
+                @MoveCursor.canceled += instance.OnMoveCursor;
+                @Lockon.started += instance.OnLockon;
+                @Lockon.performed += instance.OnLockon;
+                @Lockon.canceled += instance.OnLockon;
             }
         }
     }
@@ -1287,6 +1516,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnL1(InputAction.CallbackContext context);
+        void OnR1(InputAction.CallbackContext context);
+        void OnMoveCursor(InputAction.CallbackContext context);
+        void OnLockon(InputAction.CallbackContext context);
     }
     public interface IWaterMoveActions
     {
@@ -1299,6 +1532,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnMoveCursor(InputAction.CallbackContext context);
+        void OnLockon(InputAction.CallbackContext context);
     }
     public interface ILedgeGrabActions
     {

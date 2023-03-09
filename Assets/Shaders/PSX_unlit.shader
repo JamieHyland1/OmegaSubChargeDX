@@ -51,14 +51,14 @@ Shader "Unlit/PSX_unlit"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.screenPos = ComputeGrabScreenPos(o.vertex);
                
-                // o.vertex.x /= o.vertex.w;
-                // o.vertex.y /= o.vertex.w;
-                //
-                //  o.vertex.x  = (floor(o.vertex.x * _VPos.x)/_VPos.x)*_VPos.w;
-                //  o.vertex.y  = (floor(o.vertex.y * _VPos.y)/_VPos.y)*_VPos.w;
-                //
-                // o.vertex.x *= o.vertex.w;
-                // o.vertex.y *= o.vertex.w;
+                o.vertex.x /= o.vertex.w;
+                o.vertex.y /= o.vertex.w;
+                
+                 o.vertex.x  = (floor(o.vertex.x * _VPos.x)/_VPos.x)*_VPos.w;
+                 o.vertex.y  = (floor(o.vertex.y * _VPos.y)/_VPos.y)*_VPos.w;
+                
+                o.vertex.x *= o.vertex.w;
+                o.vertex.y *= o.vertex.w;
 
 
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);

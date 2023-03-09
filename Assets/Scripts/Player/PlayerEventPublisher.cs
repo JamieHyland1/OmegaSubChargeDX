@@ -20,6 +20,7 @@ public class PlayerEventPublisher{
     public delegate void PlayerJumpEventHandler           (object source);
 
     public delegate void PlayerDashEventHandler           (object source);
+    public delegate void PlayerLockOnEventHandler(object source, bool lockOnPressed);
 
 
     // Submarine events
@@ -36,6 +37,7 @@ public class PlayerEventPublisher{
     public static event PlayerOnLandEventHandler         onLandEvent;
     public static event PlayerJumpEventHandler           jumpEvent;
     public static event PlayerDashEventHandler           dashEvent;
+    public static event PlayerLockOnEventHandler         lockEvent;
 
     // Camera delegates
     public delegate void PlayerChangeToSubmarine  (object source);
@@ -99,5 +101,10 @@ public class PlayerEventPublisher{
 
     public void playDashEvent() {
         dashEvent?.Invoke(this);
+    }
+
+    public void targetEnemy(bool lockOn)
+    {
+        lockEvent?.Invoke(this,lockOn);
     }
 }

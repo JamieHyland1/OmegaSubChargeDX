@@ -133,12 +133,15 @@
                 fixed4 output; //= texColor + _Spread * GetBayer4(width,height);
                 output = texColor;
                 output = quantize_color(output,_NumCol);
-                // i.screenPos.x *= _Resolution.X;
-                output.rgb = DitherCrunch(output.rgb,i.screenPos * _NumCol*8);
+                i.screenPos.x *= _Resolution.x;
+                i.screenPos.y *= _Resolution.y;
+                output.rgb = DitherCrunch(output.rgb,i.screenPos);
                 //
-                // output *= scanLineIntensity(newUv.x,_Resolution.y,_Resolution.z);
-                // output *= scanLineIntensity(newUv.y,_Resolution.x,_Resolution.w);
-                //
+                
+                output *= scanLineIntensity(newUv.x,_Resolution.y,_Resolution.z);
+                output *= scanLineIntensity(newUv.y,_Resolution.x,_Resolution.w);
+                output = quantize_color(output,_NumCol);
+               
                 
                 fixed4 vignetteColor = (1.0 - _VignetteColor) * vignette;
                 fixed4 finalColor = output - vignetteColor * _Distortion.z;

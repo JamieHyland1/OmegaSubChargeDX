@@ -81,6 +81,7 @@ public class PlayerSM : StateMachine
     [SerializeField] ParticleSystem system;
     [SerializeField] Material attackMat;
     [SerializeField] GameObject boostEffectObj;
+    [SerializeField] GameObject torpedoObj;
 
 
 
@@ -130,7 +131,7 @@ private void Awake(){
             rigidbody = GetComponent<Rigidbody>();
             playerTransform = this.gameObject.transform;
             controls.Enable();
-            _WaterMoveState   = new WaterMoveState(this, rigidbody, this.transform, groundCheck, waterSurfaceCheck,  controls,   attackMat,  boostEffectObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve, collider);
+            _WaterMoveState   = new WaterMoveState(this, rigidbody, this.transform, groundCheck, waterSurfaceCheck,  controls,   attackMat,  boostEffectObj,torpedoObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve, collider);
             _GroundMoveState  = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck, wallCheck, ledgeCheck, collider);
             _DshState         = new DashState(this, rigidbody, this.transform, groundCheck, waterSurfaceCheck, wallCheck, controls, dashCurve, dashDistance);
             _LedgeGrabState   = new LedgeGrabState(this, rigidbody,this.transform,wallCheck,ledgeCheck,controls);
@@ -155,7 +156,7 @@ private void Awake(){
         LayerMask groundLayer = LayerMask.GetMask("Level Geometry");
         Gizmos.color = Color.yellow;
         if(Physics.SphereCast(wallCheck.position,2.5f,this.transform.forward,out wallHit, groundLayer))Debug.DrawRay(wallCheck.position,transform.forward * 5,Color.magenta,1.0f);
-        
+        Gizmos.DrawWireSphere(this.transform.position + Vector3.up * 6.6f, 80);
         RaycastHit hit;
         Physics.Raycast(groundCheck.position + Vector3.up, this.transform.TransformDirection(Vector3.forward), out hit, 5, groundLayer);
         // Gizmos.DrawSphere(hit.point,1);

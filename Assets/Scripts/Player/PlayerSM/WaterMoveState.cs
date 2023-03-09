@@ -13,6 +13,7 @@ public class WaterMoveState : IState
     LayerMask waterLayer;
     LayerMask groundLayer;
     GameObject boostEffectObj;
+    private GameObject torpedo;
     AnimationCurve accelCurve;
     Material attackMat;
     Rigidbody rigidbody;
@@ -27,7 +28,6 @@ public class WaterMoveState : IState
     Vector3 prevPos;
     Vector3 force;
    
-    float throttle = 0;
     float rise;
     float fall;
     float dashTimer = 1.25f;
@@ -36,10 +36,7 @@ public class WaterMoveState : IState
     float moveSpeed;
     float ySpeed;
     float accelTime;
-    float fallTriggerDeadzone;
     float dashSpeed;
-    float currentSpeed = 0;
-    float currentYSpeed;
     float jumpForce = 100;
     float speedTarget;
     float turnSmoothVelocity = 0;
@@ -61,6 +58,8 @@ public class WaterMoveState : IState
     bool jumpPressed;
     bool onSurface;
     bool jumping;
+    bool lockOnPressed;
+
     
     int boostTime = 1;
     int jumpPresesed = 0;
@@ -75,7 +74,10 @@ public class WaterMoveState : IState
 
     
       
-        public WaterMoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck, Transform waterSurfaceCheck,  PlayerControls controls,  Material attackMat, GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed, AnimationCurve accelCurve, CapsuleCollider collider){
+        public WaterMoveState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck,
+            Transform waterSurfaceCheck, PlayerControls controls, Material attackMat, GameObject torpedo,
+            GameObject boostEffectObj, float fallTriggerDeadzone, float moveSpeed, float ySpeed, float dashSpeed,
+            AnimationCurve accelCurve, CapsuleCollider collider){
             playerSM = _playerSM;
             this.rigidbody = rigidbody;
             this.playerTransform = playerTransform;
@@ -84,7 +86,8 @@ public class WaterMoveState : IState
             this.controls = controls;
             this.attackMat = attackMat;
             this.boostEffectObj = boostEffectObj;
-            this.fallTriggerDeadzone = fallTriggerDeadzone;
+            this.torpedo = torpedo;
+            // this.fallTriggerDeadzone = fallTriggerDeadzone;
             this.moveSpeed = moveSpeed;
             this.dashSpeed = dashSpeed;
             this.ySpeed = ySpeed;
@@ -110,13 +113,16 @@ public class WaterMoveState : IState
             speed = moveSpeed;
             dashSpeed = moveSpeed * 1.5f;
 
-            controls.WaterMove.Rise.performed += HandleRise;
-            controls.WaterMove.Rise.canceled  += HandleRise;
-            controls.WaterMove.Fall.performed += HandleFall;
-            controls.WaterMove.Fall.canceled  += HandleFall;
-
-            controls.WaterMove.Jump.performed += OnJump;
-            controls.WaterMove.Jump.canceled  += OnJump;
+            controls.WaterMove.Rise.performed   += HandleRise;
+            controls.WaterMove.Rise.canceled    += HandleRise;
+            controls.WaterMove.Fall.performed   += HandleFall;
+            controls.WaterMove.Fall.canceled    += HandleFall;
+            controls.WaterMove.Jump.performed   += OnJump;
+            controls.WaterMove.Jump.canceled    += OnJump;
+            controls.WaterMove.Lockon.performed += HandleLockOn;
+            controls.WaterMove.Lockon.canceled  += HandleLockOn;
+            controls.WaterMove.Attack.performed += OnAttack;
+            controls.WaterMove.Attack.canceled  += OnAttack;
 
             timeToPeak = maxJumpTime/2;
             gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToPeak,2);
@@ -126,14 +132,10 @@ public class WaterMoveState : IState
 
 
         public void FixedTick(){
-            prevPos = playerTransform.position;
-            // Y rotation based on camera
-        
-
-            rigidbody.MoveRotation(Quaternion.Euler(0,angle  * Time.timeScale,0));
-
-
-
+            if (!lockOnPressed)
+            {
+                ApplyRotation();
+            }
             rigidbody.AddForce(force);
 
             ApplyGravity();
@@ -157,12 +159,9 @@ public class WaterMoveState : IState
             CheckSubmergedStatus();
             
             //calculate current speed of the player, also read player input
-            currentSpeed = Vector3.Distance(prevPos, playerTransform.position)/Time.deltaTime;
-            currentYSpeed = Vector3.Distance(new Vector3(0,prevPos.y,0), new Vector3(0, playerTransform.position.y, 0))/Time.deltaTime;
-           
+        
             
             move = controls.WaterMove.Move.ReadValue<Vector2>();
-            throttle = controls.WaterMove.Accelerate.ReadValue<float>();
             mouseMove = (controls.WaterMove.Rotate.ReadValue<Vector2>());
             
 
@@ -253,6 +252,11 @@ public class WaterMoveState : IState
             if(!submerged)force.y += Mathf.Max(nextYvelocity,-300) * Time.fixedDeltaTime;
         }
 
+        void ApplyRotation()
+        {
+            rigidbody.MoveRotation(Quaternion.Euler(0,angle * Time.timeScale ,0));
+        }
+
         void HandleJump(){
             
             if(jumpPressed && !jumping && onSurface){
@@ -269,6 +273,30 @@ public class WaterMoveState : IState
         }
 
         void PrintStateName(){}
+        
+        void HandleLockOn(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                lockOnPressed = !lockOnPressed;
+            }
+            publisher.targetEnemy(lockOnPressed);
+       
+        }
+
+        void OnAttack(InputAction.CallbackContext context)
+        {
+            Debug.Log("Attack " + context.performed);
+            if (context.performed)
+            {
+                var gameObject = MonoBehaviour.Instantiate(boostEffectObj,playerTransform.position,(Quaternion.identity));
+                gameObject.SetActive(true);
+                gameObject.transform.forward = -playerTransform.forward;
+                gameObject.GetComponent<Rigidbody>().drag = 5;
+
+            }
+        }
+
 
         public void Exit(){
              GeneralEventHandler.onPlayerEnterDashRing -= HandleDashRing;
@@ -276,7 +304,6 @@ public class WaterMoveState : IState
              controls.WaterMove.Rise.canceled  -= HandleRise;
              controls.WaterMove.Fall.performed -= HandleFall;
              controls.WaterMove.Fall.canceled  -= HandleFall;
-
              controls.WaterMove.Jump.performed -= OnJump;
              controls.WaterMove.Jump.canceled  -= OnJump;
         }
@@ -284,7 +311,7 @@ public class WaterMoveState : IState
         public void HandleDashRing( Vector3 direction){
             Debug.Log("Dash");
             playerTransform.forward = (direction);
-            rigidbody.AddForce(direction * 500, ForceMode.Impulse);
+            rigidbody.AddForce(direction * 250, ForceMode.Impulse);
         }
 
     }
