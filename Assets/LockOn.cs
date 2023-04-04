@@ -25,12 +25,11 @@ public class LockOn : MonoBehaviour
     private int cursor = 0;
     void Start()
     {
-        Application.targetFrameRate = 300;
-        Debug.Log(Application.targetFrameRate + " frame rate");
+       
         enemyMask = LayerMask.NameToLayer("Enemy");
         cinemachineTargetGroup.m_Targets[0].target = this.transform;
         controls = new PlayerControls();
-        Debug.Log("mask " + enemyMask.value);
+        
         controls.Enable();
         controls.GroundMove.L1.performed += HandleL1;
         controls.GroundMove.L1.canceled  += HandleL1;
@@ -38,6 +37,7 @@ public class LockOn : MonoBehaviour
         controls.GroundMove.R1.canceled  += HandleR1;
         controls.GroundMove.MoveCursor.performed += HandleCursorMove;
         controls.GroundMove.MoveCursor.canceled += HandleCursorMove;
+        controls.WaterMove.Lockon.performed += HandleLockOn;
         PlayerEventPublisher.lockEvent += OnLockOn;
 
         enemiesInRage = new List<Transform>();
@@ -80,11 +80,12 @@ public class LockOn : MonoBehaviour
     
     void LockOnToTarget()
     { 
+        Debug.Log("Lock on pressed " + lockOnPressed);
         if(lockOnPressed)
         {
             //enemiesInRage = new List<Transform>();
-            Collider[] enemies = Physics.OverlapSphere(this.transform.position, enemyRadius, enemyMask);
-            
+            Collider[] enemies = Physics.OverlapSphere(this.transform.position, enemyRadius, 1<<9);
+            Debug.Log("enemies " + enemies.Length);
             if (enemies.Length == 0)
             {
                removeLockOn();
@@ -227,6 +228,17 @@ public class LockOn : MonoBehaviour
         {
             removeLockOn();
         }
+        
+    }
+
+    public GameObject GetTarget()
+    {
+        if (currentEnemy != null)
+        {
+            return currentEnemy.gameObject;
+        }
+
+        return null;
         
     }
 

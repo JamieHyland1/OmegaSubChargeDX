@@ -94,7 +94,7 @@
             float3 DitherCrunch(float3 col, int2 p){
               col*=255.0; //extrapolate 16bit color float to 16bit integer space
              
-                int dither = dither_table[p.x % 4][p.y % 4];
+                uint dither = dither_table[p.x % 4][p.y % 4];
                 col += (dither / 2.0 - 4.0); //dithering process as described in PSYDEV SDK documentation
               
               col = lerp((uint3(col) & 0xf8), 0xf8, step(0xf8,col)); 
@@ -135,13 +135,13 @@
                 output = quantize_color(output,_NumCol);
                 i.screenPos.x *= _Resolution.x;
                 i.screenPos.y *= _Resolution.y;
-                output.rgb = DitherCrunch(output.rgb,i.screenPos);
+              
                 //
                 
                 output *= scanLineIntensity(newUv.x,_Resolution.y,_Resolution.z);
                 output *= scanLineIntensity(newUv.y,_Resolution.x,_Resolution.w);
                 output = quantize_color(output,_NumCol);
-               
+                output.rgb = DitherCrunch(output.rgb,i.screenPos);
                 
                 fixed4 vignetteColor = (1.0 - _VignetteColor) * vignette;
                 fixed4 finalColor = output - vignetteColor * _Distortion.z;

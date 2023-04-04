@@ -19,7 +19,7 @@
                     "type": "Value",
                     "id": "d21e643f-0386-42b5-b13a-d8a42dc7c439",
                     "expectedControlType": "Vector2",
-                    "processors": "Scale(factor=0.1)",
+                    "processors": "Scale(factor=0.001)",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -30,6 +30,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Tap(duration=0.5)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DashJump",
+                    "type": "Button",
+                    "id": "96b09658-b587-40e3-aebb-928b460df9ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -298,6 +307,39 @@
                     "action": "Lockon",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc781913-5a7c-4809-a095-f7afc888c738",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DashJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "caae7b1b-ef2d-434d-ab01-8cd2d5b5147b",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DashJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "35c4fa62-fcc8-4108-bd3a-6d06fea54b91",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DashJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -319,7 +361,7 @@
                     "type": "Value",
                     "id": "ba34b786-73a5-4443-bee8-6d06b0c0b9cf",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=0.001)",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -399,6 +441,15 @@
                     "name": "Lockon",
                     "type": "Button",
                     "id": "75bd9bdc-a5ab-4cfc-92cc-c21bbd0d2d66",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Throttle",
+                    "type": "Button",
+                    "id": "5387ddca-bb47-418f-8017-d003d3952ead",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -565,7 +616,7 @@
                     "id": "96d0d03c-b9ec-4617-97e2-b75e7434eab2",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.1)",
+                    "processors": "ScaleVector2(x=0.05)",
                     "groups": "",
                     "action": "Rotate",
                     "isComposite": false,
@@ -694,17 +745,6 @@
                 },
                 {
                     "name": "",
-                    "id": "312a54d9-f593-4e48-8b7a-4afc41d4520f",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rise",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "3a3e1c61-977e-40f0-8e32-2d9fa01d3204",
                     "path": "<DualShockGamepad>/leftShoulder",
                     "interactions": "",
@@ -783,7 +823,7 @@
                 {
                     "name": "",
                     "id": "43943971-88b7-4787-85a3-8ebd37eb5e54",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1030,6 +1070,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Lockon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7f8959fd-3bed-4daf-9e72-ab9d06401a91",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throttle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf24c8b0-6f49-4447-9456-875fdac12702",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throttle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -38,7 +38,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Distortion:
         m_Texture: {fileID: 2800000, guid: 9dbd31f427ec3c142afae415d37c14de, type: 3}
-        m_Scale: {x: 0.1, y: 0.1}
+        m_Scale: {x: 0, y: 0}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
@@ -46,11 +46,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 3d37de476dbbd08439b0c6cbbe9f4e2f, type: 3}
-        m_Scale: {x: 50, y: 50}
+        m_Scale: {x: 0.01, y: 0.01}
         m_Offset: {x: 0, y: 0}
     - _MainTex2:
         m_Texture: {fileID: 2800000, guid: b8f9d7f4b1c51894b9b304ec70bcf163, type: 3}
-        m_Scale: {x: 50, y: 50}
+        m_Scale: {x: 0.01, y: 0.01}
         m_Offset: {x: 1, y: 1}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -78,13 +78,13 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaxDepth: 335
+    - _MaxDepth: 835
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _ReflectionDet: 1
-    - _ReflectionExp: 1
+    - _ReflectionExp: 2.489
     - _ReflectionInt: 0
     - _ReflectionMet: 0
     - _SkyBoxRefl: 0.049
@@ -94,11 +94,14 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Col1: {r: 0.30588233, g: 0.8494266, b: 1, a: 0}
-    - _Col2: {r: 0.0627451, g: 0.23396283, b: 0.5176471, a: 1}
+    - _Col1: {r: 0.3830042, g: 0.6532522, b: 0.7263353, a: 1}
+    - _Col2: {r: 0.38258404, g: 0.64823896, b: 0.97086704, a: 1}
     - _Col3: {r: 1, g: 1, b: 1, a: 1}
     - _Col4: {r: 0.097454615, g: 0.1015301, b: 0.2830189, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SkyboxColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WaveA: {r: 2.65, g: 2.29, b: 1.68, a: 6.87}
+    - _WaveB: {r: 0.1, g: 0, b: 0, a: 0.1}
+    - _WaveC: {r: 0.1, g: 0.87, b: 0, a: 0.1}
   m_BuildTextureStacks: []

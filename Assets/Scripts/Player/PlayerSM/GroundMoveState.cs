@@ -6,6 +6,7 @@ public class GroundMoveState : IState{
     readonly PlayerControls _controls;
     LayerMask _groundLayer;
     LayerMask _waterLayer;
+    LayerMask _MovingPlatform;
     readonly Transform _playerTransform;
     readonly Transform _groundCheck;
     readonly Transform _wallCheck;
@@ -25,8 +26,8 @@ public class GroundMoveState : IState{
     bool _dashing;
     private bool lockOnPressed;
     float _turnSmoothVelocity = 6000;
-    private const float Speed = 275;
-    private const float airMoveSpeed = 200;
+    private const float Speed = 375;
+   
     float _angle;
     float _targetAngle;
     float currentSpeed;
@@ -61,19 +62,23 @@ public class GroundMoveState : IState{
     public void Enter(){
         publisher = new PlayerEventPublisher();
         publisher.changeToMechCamera();
-
+        publisher.updateStateChange("Mech");
+        _controls.Enable();
+        
         collider.radius = 1.88f;
-        collider.height = 9;
+        collider.height = 10;
         collider.direction = 1;
         collider.center = new Vector3(0,4.65f,0);
        
         _groundLayer = LayerMask.GetMask("Level Geometry");
         _waterLayer  = LayerMask.GetMask("Water");
+        _MovingPlatform = LayerMask.GetMask("MovingPlatforms");
          // _rigidbody = _playerSm.GetComponent<Rigidbody>();
         _force = new Vector3();
         _camera = Camera.main;
         
         publisher.updateOnLandStatus();
+        _rigidbody.drag = 0;
 
         _controls.GroundMove.Jump.performed += OnJump;
         _controls.GroundMove.Jump.canceled += OnJump;
@@ -91,6 +96,11 @@ public class GroundMoveState : IState{
         currentJumps = maxJumps;
         _rigidbody.constraints = RigidbodyConstraints.None;
         _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        if (_playerSm.storedVelocty.magnitude > 0.1f)
+        {
+            _rigidbody.velocity = _playerSm.storedVelocty;
+            _playerSm.storedVelocty = new Vector3();
+        }
     }
     public void FixedTick(){
 
@@ -120,22 +130,35 @@ public class GroundMoveState : IState{
         
         SlopeCheck();
         //we only wanna check for ledges when we're falling
-        CheckForLedges();
+      //  CheckForLedges();
         currentSpeed  = Vector3.Distance(new Vector3(_prevPos.x,0,_prevPos.z), new Vector3(_playerTransform.position.x, 0, _playerTransform.position.z))/Time.deltaTime;
         currentYSpeed = Vector3.Distance(new Vector3(0,_prevPos.y,0), new Vector3(0, _playerTransform.position.y, 0))/Time.deltaTime;
        
+        
+        
         publisher.updateSpeedStatus(_move.magnitude);
         publisher.updateYSpeedStatus(-currentYSpeed);
         Debug.DrawLine(_prevPos, _playerTransform.position, Color.black,2f);
         GroundCheck();
         HandleRotation();
-        
-        
+      Debug.Log("Grounded " + _isGrounded);
+        publisher.updateForce(_force);
+        publisher.updateVelocity(_rigidbody.velocity);
+        publisher.updateSubmerged(Physics.CheckSphere(_groundCheck.position, 0.25f , _waterLayer));
+
     }
     void OnJump(InputAction.CallbackContext context){
-        _jumpPressed = context.performed;
-        if(_jumpPressed && currentJumps > 0){
-            publisher.updateJumpedStatus();
+        Debug.Log(context.performed);
+        if(currentJumps > 0)
+        {
+            // currentJumps--;
+            _jumpPressed = context.performed;
+            _playerTransform.parent = null;
+            if (_jumpPressed && currentJumps > 0)
+            {
+                publisher.updateJumpedStatus();
+                
+            }
         }
     }
     void OnMove(InputAction.CallbackContext context){
@@ -155,39 +178,44 @@ public class GroundMoveState : IState{
         RaycastHit wallHit;
         RaycastHit ledgeHit;
 
-        if (Physics.Linecast(_ledgeCheck.position, _ledgeCheck.position + Vector3.down , out ledgeHit,_groundLayer))
+        if (Physics.Linecast(_ledgeCheck.position, _ledgeCheck.position + Vector3.down, out ledgeHit, _groundLayer))
         {
-            //If we cant detect a wall below the edge it might not be a ledge
-            Ray wallRay = new Ray(_wallCheck.position,_playerTransform.forward);
-            if (!Physics.SphereCast(_wallCheck.position,2.5f,_playerTransform.forward,out wallHit, _groundLayer))
+            // Debug.Log("Ledge " + Vector3.Distance(ledgeHit.normal, Vector3.up) + ledgeHit.normal);
+            if (ledgeHit.normal == Vector3.up){
+                //If we cant detect a wall below the edge it might not be a ledge
+                Ray wallRay = new Ray(_wallCheck.position, _playerTransform.forward);
+            if (!Physics.SphereCast(_wallCheck.position, 2.5f, _playerTransform.forward, out wallHit, _groundLayer))
             {
                 return;
             }
-            if (wallHit.collider != null && wallHit.normal != Vector3.up)
+
+            if (wallHit.collider != null && wallHit.normal != Vector3.up &&
+                Vector3.Distance(ledgeHit.normal, Vector3.up) < 0.2f)
             {
-                 Quaternion ledgeRotation = Quaternion.LookRotation(-1 * wallHit.normal);
-                 _playerTransform.rotation = ledgeRotation;
+                Quaternion ledgeRotation = Quaternion.LookRotation(-1 * wallHit.normal);
+                _playerTransform.rotation = ledgeRotation;
             }
 
-           _rigidbody.velocity = new Vector3();
-           _playerSm.ChangeState(_playerSm._LedgeGrabState);
+            _rigidbody.velocity = new Vector3();
+            _playerSm.ChangeState(_playerSm._LedgeGrabState);
         }
+    }
     }
     
     void HandleJump(){
-        Debug.Log("Jumping " + _jumpPressed + " " + (currentJumps > 0) + " " + _jumping + " " + !_isGrounded);
         if(_jumpPressed && (_isGrounded) && !_jumping){
             _rigidbody.AddForce(Vector3.up * initialJumpVelocity, ForceMode.Impulse);
             _jumping = true;
-            currentJumps --;
+             currentJumps --;
             _jumpPressed = false;
+            _playerSm.jumpDash = false;
             return;
         }
         else if(_jumpPressed && currentJumps > 0 && _jumping && !_isGrounded){
             _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
             _force.y = 0;
             _rigidbody.AddForce(Vector3.up * (initialJumpVelocity * 1.0f), ForceMode.Impulse);
-            currentJumps --;
+             currentJumps --;
             _jumpPressed = false;
             return;
         }
@@ -220,18 +248,13 @@ public class GroundMoveState : IState{
     void HandleRotation(){
         if(_move.magnitude > 0.1){
             _targetAngle = Mathf.Atan2(_move.x, _move.y) * Mathf.Rad2Deg + _camera.transform.eulerAngles.y;
-            _angle = Mathf.SmoothDampAngle(_playerTransform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, 0.05f);
+            _angle = Mathf.SmoothDampAngle(_playerTransform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, 0.02f);
             Vector3 relativeForce = (Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward).normalized;
 
-            if(_isGrounded)
-            {
+          
                 _force.x = relativeForce.x * Speed * _move.magnitude;
                 _force.z = relativeForce.z * Speed * _move.magnitude;
-            }else if (!_isGrounded && _jumping)
-            {
-                _force.x = relativeForce.x * airMoveSpeed * _move.magnitude;
-                _force.z = relativeForce.z * airMoveSpeed * _move.magnitude;
-            }
+            
         }
         else {
             _force.x = 0;
@@ -239,11 +262,26 @@ public class GroundMoveState : IState{
         }
     }
     // This method is to check wether the mech should be in its land state or water state
-    void CheckStatus(){
-        RaycastHit groundHit, waterHit;
-        _isGrounded = Physics.CheckSphere(_groundCheck.position, 0.4f , _groundLayer);
-         publisher.updateGroundedStatus(_isGrounded);
-        
+    void CheckStatus()
+    {
+        RaycastHit groundHit, waterHit, platformHit;
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, 0.4f, _groundLayer) ||
+                      Physics.CheckSphere(_groundCheck.position, 0.4f, _MovingPlatform);
+        publisher.updateGroundedStatus(_isGrounded);
+        if (Physics.Linecast(_groundCheck.position + Vector3.up, _groundCheck.position + Vector3.down, out platformHit, _MovingPlatform))
+        {
+            // Debug.Log("on moving platform");
+            Rigidbody rb = platformHit.collider.gameObject.GetComponent<Rigidbody>();
+            // _rigidbody.isKinematic = true;
+            // _rigidbody.velocity = _rigidbody.velocity + rb.velocity;
+
+        }
+        else
+        {
+            _rigidbody.drag = 0;
+        }
+
+
         if(_isGrounded){
             _force.y = 0;
             currentJumps = maxJumps;
@@ -262,14 +300,24 @@ public class GroundMoveState : IState{
     }
     void SlopeCheck(){
         RaycastHit downHit;
-        Physics.Raycast(_groundCheck.position + Vector3.up,_playerTransform.TransformDirection(Vector3.down), out downHit, 5.1f, _groundLayer);
+        Physics.Raycast(_groundCheck.position + Vector3.up,Vector3.down, out downHit, 5.1f, _groundLayer);
         Vector3 localHitNormal = _playerTransform.InverseTransformDirection(downHit.normal);
         float slopeAngle  =  Vector3.Angle(localHitNormal,_groundCheck.up);
-        if(slopeAngle != 0 && slopeAngle < 47.5f){
-            Vector3 newForce = Vector3.ProjectOnPlane(_force,downHit.normal);
+        Debug.Log("Grounded Slope Angle " + slopeAngle);
+        if (slopeAngle != 0 && slopeAngle < 47.5f)
+        {
+            Vector3 newForce = Vector3.ProjectOnPlane(_force, downHit.normal);
             newForce.y = Mathf.Min(newForce.y, 5);
             _force = newForce;
             Debug.DrawRay(_groundCheck.position, newForce, Color.white, 0.2f);
+        }
+        else if (slopeAngle > 47.5f) 
+        {
+            Vector3 downForce = Vector3.ProjectOnPlane(Vector3.down * Speed,downHit.normal);
+            _force = downForce;
+            Debug.Log("Grounded stee[ Slope " + slopeAngle);
+            
+
         }
     }
     void HandleLockOn(InputAction.CallbackContext context)
@@ -283,10 +331,9 @@ public class GroundMoveState : IState{
         publisher.targetEnemy(lockOnPressed);
        
     }
-
     
-
     public void Exit(){
+        
         _controls.GroundMove.Jump.performed -= OnJump;
         _controls.GroundMove.Jump.canceled  -= OnJump;
         _controls.GroundMove.Move.performed -= OnMove;
@@ -295,6 +342,7 @@ public class GroundMoveState : IState{
         _controls.GroundMove.Dash.canceled  -= OnDash;
         _controls.GroundMove.Lockon.performed -= HandleLockOn;
         _controls.GroundMove.Lockon.canceled -= HandleLockOn;
+        _controls.Disable();
     }
 }
 

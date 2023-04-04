@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,14 @@ public class TestHit : MonoBehaviour
     
     public AudioSource audio;
     public AudioClip whooshSound;
+    private HitStop hitStop;
+    private SpringTest springTest;
 
 
     void Start()
     {
-        
+        hitStop = this.GetComponent<HitStop>();
+        springTest = this.GetComponent<SpringTest>();
     }
 
     // Update is called once per frame
@@ -23,10 +27,15 @@ public class TestHit : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "wave"){
-            audio.Play();
-            Debug.DrawLine(this.transform.position, this.transform.position + other.transform.forward * 15, Color.white,  0.5f);
-        }
+        Debug.Log("Colission " + other.gameObject.name);
+
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        // springTest.OnHit();
+        hitStop.confirmHit();
         
+        Debug.Log("Enemy Hit");
     }
 }
