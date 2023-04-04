@@ -46,6 +46,24 @@ public class PlayerEventPublisher{
     // Camera events
     public static event PlayerChangeToSubmarine playerChangeToSubmarine;
     public static event PlayerChangingToMech    playerChangeToSMech;
+    
+    
+    //Debug delegates
+    public delegate void PlayerStateChange(object source, string state);
+
+    public delegate void PlayerForceUpdate(object source, Vector3 force);
+
+    public delegate void PlayerVelocityUpdate(object source, Vector3 velocity);
+
+    public delegate void PlayerSubmergedUpdate(object souce, bool submerged);
+    
+    // Debug events
+    public static event PlayerStateChange stateChange;
+    public static event PlayerForceUpdate forceUpdate;
+    public static event PlayerVelocityUpdate velocityUpdate;
+    public static event PlayerSubmergedUpdate submergedUpdate;
+    
+    
 
 
 
@@ -106,5 +124,25 @@ public class PlayerEventPublisher{
     public void targetEnemy(bool lockOn)
     {
         lockEvent?.Invoke(this,lockOn);
+    }
+
+    public void updateStateChange(string state)
+    {
+        stateChange?.Invoke(this,state);
+    }
+
+    public void updateForce(Vector3 force)
+    {
+        forceUpdate?.Invoke(this,force);
+    }
+
+    public void updateVelocity(Vector3 velocity)
+    {
+        velocityUpdate?.Invoke(this,velocity);
+    }
+
+    public void updateSubmerged(bool submerged)
+    {
+        submergedUpdate?.Invoke(this,submerged);
     }
 }

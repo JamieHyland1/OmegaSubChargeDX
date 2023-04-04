@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.ParticleSystemJobs;
 
 public class Partical_Effect_Accelerator : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class Partical_Effect_Accelerator : MonoBehaviour
     public float smokeStartRate;
     public float accelerateMultiplier;
     public float boostMultiplier;
-    public Animator propellerAnim;
+   // public Animator propellerAnim;
     // public Player player;
     private AudioSource audio;
     
@@ -39,27 +39,26 @@ public class Partical_Effect_Accelerator : MonoBehaviour
    
     void Update()
     {
-        // var bubblesEm = bubbles.emission;
-        // var smokeEm = smoke.emission;
-        // var smokeMM = smoke.main;
-        // float _turbo = 1;
+         ParticleSystem.EmissionModule bubblesEm = bubbles.emission;
+         ParticleSystem.EmissionModule smokeEm = smoke.emission;
+         ParticleSystem.MainModule smokeMM = smoke.main;
+         float _turbo = 1;
         
-        // acceleration = controls.WaterMove.Accelerate.ReadValue<float>();
-        // boosting = controls.WaterMove.Boost.ReadValue<float>();
-        // if (_turbo == 0) boosting = 0;
+         acceleration = controls.WaterMove.Accelerate.ReadValue<float>();
+         boosting = controls.WaterMove.Boost.ReadValue<float>();
+         if (_turbo == 0) boosting = 0;
         
-        // bubblesEm.rateOverTime = bubbleStartRate + ((boosting * boostMultiplier) + (acceleration * accelerateMultiplier));
-        // smokeEm.rateOverTime = smokeStartRate + ((boosting * boostMultiplier) + (acceleration * accelerateMultiplier));
-
-        // smokeMM.startSize = 0.39f + (boosting*0.8f) + (acceleration*0.3f);
-
-        // propellerAnim.speed = 1 + (boosting*5) + (acceleration*3);
+         bubblesEm.rateOverTime = bubbleStartRate + ((boosting * boostMultiplier) + (acceleration * accelerateMultiplier));
+         smokeEm.rateOverTime = smokeStartRate + ((boosting * boostMultiplier) + (acceleration * accelerateMultiplier));
+    
+         smokeMM.startSize = 0.39f + (boosting*0.8f) + (acceleration*0.3f);
+    
+       //  propellerAnim.speed = 1 + (boosting*5) + (acceleration*3);
         
-        // audio.pitch = 0.6f + (boosting*1.5f) + (acceleration*1.1f);
-        // audio.volume = 0.6f + (boosting*0.3f) + (acceleration*0.2f);
+         // audio.pitch = 0.6f + (boosting*1.5f) + (acceleration*1.1f);
+         // audio.volume = 0.6f + (boosting*0.3f) + (acceleration*0.2f);
         
         
-        //Debug.Log("accel = " + acceleration + ". boost = " + boosting);
         
     }
 }

@@ -4,10 +4,12 @@ using UnityEngine;
 public class HitStop : MonoBehaviour
 {
     bool waiting = false;
+
+    private SpringTest springTest;
     // Start is called before the first frame update
     void Start()
     {
-        
+        springTest = this.GetComponent<SpringTest>();
     }
 
     
@@ -19,10 +21,12 @@ public class HitStop : MonoBehaviour
 
     IEnumerator Stop()
     {
-       
+        springTest.OnHit();
         waiting = true;
-        yield return new WaitForSecondsRealtime(0.05f);
-        //  Debug.Log("HIT CONFIRMED");
+        springTest.Pause();
+        yield return new WaitForSecondsRealtime(0.15f);
+        springTest.Play();
+        Debug.Log("HIT CONFIRMED");
         Time.timeScale = 1;
         waiting = false;
     }

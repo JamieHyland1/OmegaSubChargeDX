@@ -409,6 +409,10 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: torpedoObj
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: cameraPoint
     value: 
     objectReference: {fileID: 0}

@@ -50,7 +50,7 @@ public class LedgeGrabState : IState{
     }
     public void Enter(){
         Debug.Log("Ledge grab state");
-
+      //  publisher.updateStateChange("Ledge Grab");
        //controls = new PlayerControls();
         controls.LedgeGrab.Jump.performed += OnJump;
         controls.LedgeGrab.Jump.canceled += OnJump;
@@ -94,6 +94,8 @@ public class LedgeGrabState : IState{
         
         HandleMoveInput();
         HandleRotation(); 
+        
+        
 
 
     }

@@ -7,6 +7,8 @@ public class Rotate : MonoBehaviour
 
     [SerializeField]
     float speed;
+
+    [SerializeField] private Vector3 axis;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,6 @@ public class Rotate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, speed*Time.deltaTime, 0, Space.Self);
+        transform.Rotate(axis.x * speed * Time.deltaTime, axis.y * speed * Time.deltaTime, axis.z, Space.Self);
     }
 }

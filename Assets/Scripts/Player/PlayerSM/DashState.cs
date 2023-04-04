@@ -61,23 +61,20 @@ public class DashState : IState{
     bool falling = false;
     bool jump = false;
     bool submerged;
-    bool jumpPressed;
-    bool onSurface;
     bool jumping;
+    private bool isGrounded;
+    
     
     int boostTime = 1;
-    int jumpPresesed = 0;
-    float timeToPeak;
-    float maxJumpHeight = 15;
-    float maxJumpTime = .5f;
+    private float previousDistanceToTarget;
     float gravity;
-    float currentGravity;
-    float initialJumpVelocity;
     float animationTimePosition;
     float dashDistance;
+    private float groundedGravity = 0.85f;
+    private bool _jumpPressed;
 
 
-     public DashState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck, Transform waterSurfaceCheck, Transform wallCheck, PlayerControls controls, AnimationCurve dashCurve, float dashDistance){
+    public DashState(PlayerSM _playerSM, Rigidbody rigidbody, Transform playerTransform, Transform groundCheck, Transform waterSurfaceCheck, Transform wallCheck, PlayerControls controls, AnimationCurve dashCurve, float dashDistance){
             this.playerSM = _playerSM;
             this.rigidbody = rigidbody;
             this.playerTransform = playerTransform;
@@ -90,57 +87,94 @@ public class DashState : IState{
         }
         
         public void Enter(){
-            Debug.Log("Dash State");
             publisher = new PlayerEventPublisher();
+           
+            publisher.updateStateChange("Mech dash");
             controls = new PlayerControls();
             animationTimePosition = 0;
             groundLayer = LayerMask.GetMask("Level Geometry");
             waterLayer  = LayerMask.GetMask("Water");
             nextPos = playerTransform.position;
+            
             Ray ray = new Ray(playerTransform.position,playerTransform.forward );
             RaycastHit hit;
             Physics.Raycast(ray,  out hit, dashDistance);
+           
             if(hit.collider != null){
                 dashLocation = new Vector3(hit.point.x ,hit.point.y,hit.point.z - 2 - 0.2f);
             }else{
                 dashLocation = playerTransform.position + playerTransform.forward * dashDistance;
             }
-            Debug.Log("Dash Location " + dashLocation);
-        }
-
-
-        public void FixedTick(){
-       
-         
-        }
-
-        public void Tick(){       
             
-             Debug.Log("distance to target " + Vector3.Distance(playerTransform.position, dashLocation)); 
-             if(Vector3.Distance(playerTransform.position, dashLocation) > 0.1f)
-             {
-                prevPos = playerTransform.position; 
-                float amount = dashCurve.Evaluate(animationTimePosition);
-                nextPos = Vector3.Lerp(playerTransform.position,dashLocation,(amount));
-                if(Physics.CheckSphere(wallCheck.position + nextPos, 0.5f ,groundLayer))playerSM.ChangeState(playerSM._GroundMoveState);
-                playerTransform.position += ((nextPos-playerTransform.position) * (125 * Time.deltaTime));
-                publisher.playDashEvent();
-                float t = Time.deltaTime;
-                animationTimePosition += t;
+            rigidbody.isKinematic = true;
+            animationTimePosition = 0;
+          
+       
+            controls.Enable();
+            controls.GroundMove.DashJump.performed += OnJump;
+            // controls.GroundMove.Jump.canceled += OnJump;
+        }
+        public void FixedTick(){
+            Vector3 t = Vector3.Lerp(playerTransform.position, dashLocation, dashCurve.Evaluate(animationTimePosition));
+            rigidbody.MovePosition(Vector3.Lerp(playerTransform.position, dashLocation, dashCurve.Evaluate(animationTimePosition*2)));
+            HandleJump();
+        }
+       
+        public void Tick()
+        {
+            if (playerTransform.parent != null) playerTransform.parent = null;
 
-            }else{
-              playerSM.ChangeState(playerSM._GroundMoveState);
+            float d = Vector3.Distance(playerTransform.position, dashLocation);
+             if(d > 0.6f)
+             {
+                 publisher.playDashEvent();
+                 
+                float t = Time.deltaTime*2;
+                animationTimePosition += t;
+            
+            }else
+             {
+                 playerTransform.position = dashLocation;
+                 playerSM.ChangeState(playerSM._GroundMoveState);
+            }
+             publisher.updateForce(force);
+             publisher.updateVelocity(rigidbody.velocity);
+             publisher.updateSubmerged(Physics.CheckSphere(groundCheck.position, 0.25f , waterLayer));
+        }
+        void OnJump(InputAction.CallbackContext context){
+                Debug.Log("Dash state jump");
+                _jumpPressed = context.performed;
+                playerTransform.parent = null;
+                
+                if (_jumpPressed )
+                {
+                    publisher.updateJumpedStatus();
+                }
+        }
+        void HandleJump()
+        {
+            if (_jumpPressed )
+            {
+                rigidbody.isKinematic = false;
+                _jumpPressed = false;
+                // rigidbody.AddForce(Vector3.up * 4,ForceMode.Impulse);
+                playerSM.ChangeState(playerSM._DashJump);
             }
         }
-
-  
-
-        void PrintStateName(){}
-
-        public void Exit(){
-           
+        void PrintStateName()
+        {
         }
+        
+        public void Exit()
+        {
+            if (_jumpPressed)
+            {
+                playerSM.storedVelocty = rigidbody.velocity;
+                playerSM.jumpDash = true;
+            }
 
-       
+            rigidbody.isKinematic = false;
+            controls.GroundMove.DashJump.performed -= OnJump;
+        }
 
 }
