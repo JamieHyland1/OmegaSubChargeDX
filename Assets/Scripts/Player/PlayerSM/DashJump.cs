@@ -54,7 +54,7 @@ public class DashJump:IState
         currentGravity = gravity;
         publisher = new PlayerEventPublisher();
         publisher.updateStateChange("Dash jump");
-        publisher.playDashEvent();
+        // publisher.playDashEvent();
         rigidbody.velocity = playerSM.storedVelocty;
         Vector3 upVel = Vector3.up * initialJumpVelocity;
         Vector3 forwardVel = new Vector3(playerTransform.forward.x, 0, playerTransform.forward.z) * Speed;
@@ -64,8 +64,9 @@ public class DashJump:IState
         groundLayer = LayerMask.GetMask("Level Geometry");
         waterLayer  = LayerMask.GetMask("Water");
         movingPlatform = LayerMask.GetMask("MovingPlatforms");
-    
 
+        isGrounded = false;
+        publisher.updateGroundedStatus(isGrounded);
     }
     public void Tick()
     {
@@ -88,7 +89,7 @@ public class DashJump:IState
         // rigidbody.AddForce(force, ForceMode.Acceleration);
         Vector3 currentVelocity =  rigidbody.velocity * ( 1 - Time.fixedDeltaTime * dragForce);
         if(!isGrounded)rigidbody.velocity = new Vector3(currentVelocity.x, rigidbody.velocity.y, currentVelocity.z); else rigidbody.velocity = currentVelocity;
-      
+       
         ApplyGravity();
         GroundCheck();
     }
@@ -106,7 +107,7 @@ public class DashJump:IState
         if(!isGrounded)force.y += Mathf.Max(nextYvelocity,-500) * Time.fixedDeltaTime; else force.y += groundedGravity * Time.fixedDeltaTime;
     }
     void ApplyRotation(){
-        rigidbody.MoveRotation(Quaternion.Euler(0, angle  * Time.timeScale, 0));
+       // rigidbody.MoveRotation(Quaternion.Euler(0, angle  * Time.timeScale, 0));
     }
     void HandleRotation()
     {
@@ -130,6 +131,8 @@ public class DashJump:IState
         RaycastHit groundHit, waterHit, platformHit;
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.4f, groundLayer) ||
                       Physics.CheckSphere(groundCheck.position, 0.4f, movingPlatform);
+        //isGrounded = Physics.Linecast(groundCheck.position + Vector3.up, groundCheck.position + Vector3.down * 0.5f,
+            // out platformHit, groundLayer);
         if (Physics.Linecast(groundCheck.position + Vector3.up, groundCheck.position + Vector3.down, out platformHit, movingPlatform))
         {
            
@@ -140,7 +143,7 @@ public class DashJump:IState
         {
             rigidbody.drag = 0;
         }
-
+        publisher.updateGroundedStatus(isGrounded);
 
         if(isGrounded){
             force.y = 0;
@@ -148,6 +151,7 @@ public class DashJump:IState
         }
         if(!isGrounded){
             if( (Physics.OverlapSphere(playerTransform.position, 0.5f, waterLayer).Length > 0)){
+                Debug.Log("IN WATER");
                 publisher.updateYSpeedStatus(0);
                 publisher.updateSubmergedStatus();
                 playerSM.ChangeState(playerSM._WaterMoveState);

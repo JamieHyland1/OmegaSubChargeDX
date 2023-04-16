@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,5 +71,11 @@ public class SpringTest : MonoBehaviour
         {
             currentScale = springScale;
         }
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        currentScale = springScale;
+        Debug.Log("Hit!");
     }
 }

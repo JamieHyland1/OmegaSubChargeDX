@@ -24,7 +24,7 @@ public class HitStop : MonoBehaviour
         springTest.OnHit();
         waiting = true;
         springTest.Pause();
-        yield return new WaitForSecondsRealtime(0.15f);
+        yield return new WaitForSecondsRealtime(0.05f);
         springTest.Play();
         Debug.Log("HIT CONFIRMED");
         Time.timeScale = 1;

@@ -18,9 +18,20 @@ public class PlayerEventPublisher{
     public delegate void PlayerSubmergedEventHandler      (object source);
     public delegate void PlayerOnLandEventHandler         (object source);
     public delegate void PlayerJumpEventHandler           (object source);
-
-    public delegate void PlayerDashEventHandler           (object source);
+    
     public delegate void PlayerLockOnEventHandler(object source, bool lockOnPressed);
+
+    public delegate void PlayerDashEventHandler(object source);
+
+    public delegate void PlayerSwordStatusEventHandler(object source, bool swordEquipped);
+
+    public delegate void PlayerDrawSwordEventHandler(object source);
+
+    public delegate void PlayerSheathSwordEventHandler(object source);
+
+    public delegate void PlayerAttackEventHandler(object source, int attack);
+
+    public delegate void PlayerAttackInitEventHandler(object source);
 
 
     // Submarine events
@@ -38,6 +49,14 @@ public class PlayerEventPublisher{
     public static event PlayerJumpEventHandler           jumpEvent;
     public static event PlayerDashEventHandler           dashEvent;
     public static event PlayerLockOnEventHandler         lockEvent;
+    
+    public static event PlayerSwordStatusEventHandler      swordStatusEvent;
+
+    public static event PlayerDrawSwordEventHandler      drawSwordEvent;
+
+    public static event PlayerSheathSwordEventHandler   sheathSworthEvent;
+    public static event PlayerAttackEventHandler        attackEvent;
+    
 
     // Camera delegates
     public delegate void PlayerChangeToSubmarine  (object source);
@@ -101,8 +120,28 @@ public class PlayerEventPublisher{
         submergedEvent?.Invoke(this);
     }
 
+    public void updateAttackStatus(int attack)
+    {
+        attackEvent?.Invoke(this,attack);
+    }
+
     public void updateOnLandStatus(){
         onLandEvent?.Invoke(this);
+    }
+
+    public void updateSwordStatus(bool swordEquipped)
+    {
+        swordStatusEvent?.Invoke(this, swordEquipped);
+    }
+    
+    public void updateDrawSword()
+    {
+        drawSwordEvent?.Invoke(this);
+    }
+
+    public void updateSheathSword()
+    {
+        sheathSworthEvent?.Invoke(this);
     }
 
     public void updateJumpedStatus(){

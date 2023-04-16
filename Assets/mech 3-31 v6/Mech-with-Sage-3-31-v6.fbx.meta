@@ -1,0 +1,316 @@
+fileFormatVersion: 2
+guid: 55ced4b152e101249adc33ec74638ce9
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      74: 5452232375242349900
+    second: MechRunHoldingSword
+  - first:
+      74: 6275103691576721810
+    second: MechRun
+  - first:
+      74: 6294876761370811314
+    second: MechWalkHoldingSword
+  - first:
+      74: -2870322083963947162
+    second: MechWalk
+  - first:
+      74: -1790057403587462397
+    second: mechTransformToSub
+  - first:
+      74: 1166708390945285938
+    second: mechTransformToMech
+  - first:
+      74: -7789690009752797491
+    second: mechFalling
+  - first:
+      74: 5336636079410506389
+    second: mechDashSwordAttack
+  - first:
+      74: -6946737719724951206
+    second: mechDash
+  - first:
+      74: 7296825031752842942
+    second: mechDoubleJumpSword
+  - first:
+      74: 4257247831332715824
+    second: mechDoubleJump
+  - first:
+      74: -40096307171677996
+    second: mechJump
+  - first:
+      74: 7119793039974056190
+    second: mechMeleeCombo1
+  - first:
+      74: 8424662987437792842
+    second: mechMeleeCombo2
+  - first:
+      74: 3520639851598770249
+    second: mechMeleeCombo3
+  - first:
+      74: -7377596842000075172
+    second: mechMeleeCombo4
+  - first:
+      74: 8201711802325254108
+    second: mechShoot
+  - first:
+      74: 8370246184354915777
+    second: mechAimWalkLeft
+  - first:
+      74: -7053511787929500151
+    second: mechAimWalkRight
+  - first:
+      74: -4610140431428905036
+    second: mechGrabLedge
+  - first:
+      74: 8875374949263811298
+    second: mechJumpUpFromLedge
+  - first:
+      74: 815915816113242623
+    second: mechGrabLedgeShimmyRight
+  - first:
+      74: 8111208135928748549
+    second: mechGrabLedgeShimmyLeft
+  - first:
+      74: 81250543564771389
+    second: mechLaunchPad1
+  - first:
+      74: -5558103192961454685
+    second: mechLaunchPad2
+  - first:
+      74: -3441709899434028381
+    second: mechLaunchPad3
+  - first:
+      74: -3843309263749067550
+    second: mechLaunchPad4
+  - first:
+      74: -8248587615016655297
+    second: mechTakeDamage
+  - first:
+      74: 2109033904759591790
+    second: mechPush
+  - first:
+      74: 2636056859842899904
+    second: MechIdle
+  - first:
+      74: -7422864919442236078
+    second: mechSwordCombo1
+  - first:
+      74: -5472045559430853486
+    second: mechSwordCombo2
+  - first:
+      74: 8329022666801453437
+    second: mechSwordCombo3
+  - first:
+      74: 5110947213631904748
+    second: mechSwordCombo4
+  - first:
+      74: -3691258252620085478
+    second: mechSwordChargeAttack1
+  - first:
+      74: 5357439821428630570
+    second: mechSwordChargeAttack2
+  - first:
+      74: 1194318568936578388
+    second: mechGetSwordOut
+  - first:
+      74: -8926173059502774323
+    second: mechPutAwaySword
+  - first:
+      74: -8904209481591464476
+    second: cubeMoveJumpUpFromLedge
+  - first:
+      74: 5671712113202915907
+    second: sagemechRun
+  - first:
+      74: -2211871684686329157
+    second: sagemechTransform
+  - first:
+      74: -3943786711058821758
+    second: sagemechJump
+  - first:
+      74: -9195203356975382543
+    second: sagemechWalk
+  - first:
+      74: 8010107132854769482
+    second: sagemechDash
+  - first:
+      74: -6943253479768475034
+    second: swordStayShort
+  - first:
+      74: -2947746870598352112
+    second: swordExtend
+  - first:
+      74: -3122952080984974933
+    second: swordRetract
+  - first:
+      74: 4181709374024849092
+    second: swordCharge1
+  - first:
+      74: 5517836503752248856
+    second: swordCharge2
+  - first:
+      74: 4480246859970824111
+    second: swordStayLong
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 65ceceed808480747ae1768bc0159fb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: aafd793f66905004a9c895990690cd81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass
+    second: {fileID: 2100000, guid: 3086f302588f5bd4a9eeaa5581819cc1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: joysitcks
+    second: {fileID: 2100000, guid: f2b76ad14a6b88d4d899600ba054cd59, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: propeller
+    second: {fileID: 2100000, guid: 0c1369a2f91dd5c4aaa3ce8768e7d1c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sage body.001
+    second: {fileID: 2100000, guid: 402c76349b695254fa7538e3f82a0392, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sage face eyes
+    second: {fileID: 2100000, guid: 47c0769a87179d146b59fd4199e3feac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sage face mouth
+    second: {fileID: 2100000, guid: 5e80dc0c8645afb488b0578391952d0f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: submaterial
+    second: {fileID: 2100000, guid: 236430319533ca64f803eb2c56b0a8e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: swordblade
+    second: {fileID: 2100000, guid: b3359a4d2dfaeed44ba549ce99e28d4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: swordhandle
+    second: {fileID: 2100000, guid: dffb1c3befda9564081e9711d4b88970, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: swordpropeller
+    second: {fileID: 2100000, guid: 9e4b52517fe4c484dbecef15d5697e89, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.1
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

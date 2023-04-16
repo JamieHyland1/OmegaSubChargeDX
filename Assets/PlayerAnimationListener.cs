@@ -11,15 +11,20 @@ public class PlayerAnimationListener : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        PlayerEventPublisher.risingSentEvent  += OnRisingUpdate;
-        PlayerEventPublisher.fallingSentEvent += OnFallingUpdate;
-        PlayerEventPublisher.speedEvent       += OnSpeedUpdate;
-        PlayerEventPublisher.ySpeedEvent      += OnYSpeedUpdate;
-        PlayerEventPublisher.boostingEvent    += OnBoostingUpdate;
-        PlayerEventPublisher.groundedEvent    += OnGroundedUpdate;
-        PlayerEventPublisher.submergedEvent   += OnSubmergedUpdate;
-        PlayerEventPublisher.onLandEvent      += OnLandUpdate;
-        PlayerEventPublisher.jumpEvent        += OnJumpedUpdate;
+        PlayerEventPublisher.risingSentEvent   += OnRisingUpdate;
+        PlayerEventPublisher.fallingSentEvent  += OnFallingUpdate;
+        PlayerEventPublisher.speedEvent        += OnSpeedUpdate;
+        PlayerEventPublisher.ySpeedEvent       += OnYSpeedUpdate;
+        PlayerEventPublisher.boostingEvent     += OnBoostingUpdate;
+        PlayerEventPublisher.groundedEvent     += OnGroundedUpdate;
+        PlayerEventPublisher.submergedEvent    += OnSubmergedUpdate;
+        PlayerEventPublisher.onLandEvent       += OnLandUpdate;
+        PlayerEventPublisher.dashEvent         += OnDashUpdate;
+        PlayerEventPublisher.jumpEvent         += OnJumpedUpdate;
+        PlayerEventPublisher.swordStatusEvent  += OnSwordStatus;
+        PlayerEventPublisher.drawSwordEvent    += OnDrawSword;
+        PlayerEventPublisher.sheathSworthEvent += OnSheathSword;
+        PlayerEventPublisher.attackEvent       += OnAttackUpdate;
     }
     
     public void OnRisingUpdate(object source, bool rising){
@@ -42,6 +47,11 @@ public class PlayerAnimationListener : MonoBehaviour
         MechAnimator.SetFloat("Speed", speed);
        // SageAnimator.SetFloat("Speed", speed);
 
+    }
+
+    public void OnDashUpdate(object source)
+    {
+        MechAnimator.SetTrigger("Dash");
     }
 
     public void OnYSpeedUpdate(object source, float speed){
@@ -67,6 +77,31 @@ public class PlayerAnimationListener : MonoBehaviour
         MechAnimator.SetTrigger("Transform");
     }
 
+    public void OnAttackUpdate(object source, int attack)
+    {
+            MechAnimator.SetInteger("Attack", attack);
+            // if(attack>-1)
+            // {   
+                MechAnimator.SetTrigger("Attack_init");
+           // }
+           Debug.Log("Attack! " + attack);
+    }
+
+    public void OnSwordStatus(object source, bool swordEquipped)
+    {
+        MechAnimator.SetBool("SwordEquipped",swordEquipped);
+    }
+
+    public void OnDrawSword(object source)
+    {
+        MechAnimator.SetTrigger("drawSword");
+    }
+
+    public void OnSheathSword(object source)
+    {
+        MechAnimator.SetTrigger("sheathSword");
+    }
+
     public void OnJumpedUpdate(object source){
         MechAnimator.SetTrigger("Jump");
         SageAnimator.SetTrigger("Jump");
@@ -78,15 +113,20 @@ public class PlayerAnimationListener : MonoBehaviour
 
     void OnDisable()
     {
-        PlayerEventPublisher.risingSentEvent  -= OnRisingUpdate;
-        PlayerEventPublisher.fallingSentEvent -= OnFallingUpdate;
-        PlayerEventPublisher.speedEvent       -= OnSpeedUpdate;
-        PlayerEventPublisher.ySpeedEvent      -= OnYSpeedUpdate;
-        PlayerEventPublisher.boostingEvent    -= OnBoostingUpdate;
-        PlayerEventPublisher.groundedEvent    -= OnGroundedUpdate;
-        PlayerEventPublisher.submergedEvent   -= OnSubmergedUpdate;
-        PlayerEventPublisher.onLandEvent      -= OnLandUpdate;
-        PlayerEventPublisher.jumpEvent        -= OnJumpedUpdate;
+        PlayerEventPublisher.risingSentEvent   -= OnRisingUpdate;
+        PlayerEventPublisher.fallingSentEvent  -= OnFallingUpdate;
+        PlayerEventPublisher.speedEvent        -= OnSpeedUpdate;
+        PlayerEventPublisher.ySpeedEvent       -= OnYSpeedUpdate;
+        PlayerEventPublisher.boostingEvent     -= OnBoostingUpdate;
+        PlayerEventPublisher.groundedEvent     -= OnGroundedUpdate;
+        PlayerEventPublisher.submergedEvent    -= OnSubmergedUpdate;
+        PlayerEventPublisher.onLandEvent       -= OnLandUpdate;
+        PlayerEventPublisher.dashEvent         -= OnDashUpdate;
+        PlayerEventPublisher.jumpEvent         -= OnJumpedUpdate;
+        PlayerEventPublisher.swordStatusEvent  -= OnSwordStatus;
+        PlayerEventPublisher.drawSwordEvent    -= OnDrawSword;
+        PlayerEventPublisher.sheathSworthEvent -= OnSheathSword;
+        PlayerEventPublisher.attackEvent       -= OnAttackUpdate;
     }
     
 }

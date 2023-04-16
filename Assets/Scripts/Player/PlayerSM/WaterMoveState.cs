@@ -290,6 +290,8 @@ public class WaterMoveState : IState
              controls.WaterMove.Rise.canceled  -= HandleRise;
              controls.WaterMove.Fall.performed -= HandleFall;
              controls.WaterMove.Fall.canceled  -= HandleFall;
+             controls.WaterMove.Attack.performed -= OnAttack;
+             controls.WaterMove.Attack.canceled  -= OnAttack;
              rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
              controls.Disable();
         }

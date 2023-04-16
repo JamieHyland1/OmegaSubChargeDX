@@ -107,6 +107,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Tap"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Sword"",
+                    ""type"": ""Button"",
+                    ""id"": ""288d1443-8636-4228-a49f-e200d5a839a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""993b2ee9-a319-421c-a407-df601f9d3669"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap(duration=0.5)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -360,6 +378,50 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DashJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2572e4c1-4cde-4e71-999b-b60ed319cf71"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sword"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff309861-78eb-4b7a-aece-fff2d4fe823a"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sword"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""337e0e3c-24f5-4cfe-bf3c-6fb6fdf21826"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c777055-3e93-44df-be39-f7c5ac963872"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1258,6 +1320,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_GroundMove_R1 = m_GroundMove.FindAction("R1", throwIfNotFound: true);
         m_GroundMove_MoveCursor = m_GroundMove.FindAction("MoveCursor", throwIfNotFound: true);
         m_GroundMove_Lockon = m_GroundMove.FindAction("Lockon", throwIfNotFound: true);
+        m_GroundMove_Sword = m_GroundMove.FindAction("Sword", throwIfNotFound: true);
+        m_GroundMove_Attack = m_GroundMove.FindAction("Attack", throwIfNotFound: true);
         // WaterMove
         m_WaterMove = asset.FindActionMap("WaterMove", throwIfNotFound: true);
         m_WaterMove_Turn = m_WaterMove.FindAction("Turn", throwIfNotFound: true);
@@ -1344,6 +1408,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_GroundMove_R1;
     private readonly InputAction m_GroundMove_MoveCursor;
     private readonly InputAction m_GroundMove_Lockon;
+    private readonly InputAction m_GroundMove_Sword;
+    private readonly InputAction m_GroundMove_Attack;
     public struct GroundMoveActions
     {
         private @PlayerControls m_Wrapper;
@@ -1357,6 +1423,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @R1 => m_Wrapper.m_GroundMove_R1;
         public InputAction @MoveCursor => m_Wrapper.m_GroundMove_MoveCursor;
         public InputAction @Lockon => m_Wrapper.m_GroundMove_Lockon;
+        public InputAction @Sword => m_Wrapper.m_GroundMove_Sword;
+        public InputAction @Attack => m_Wrapper.m_GroundMove_Attack;
         public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1393,6 +1461,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Lockon.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnLockon;
                 @Lockon.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnLockon;
                 @Lockon.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnLockon;
+                @Sword.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnSword;
+                @Sword.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnSword;
+                @Sword.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnSword;
+                @Attack.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_GroundMoveActionsCallbackInterface = instance;
             if (instance != null)
@@ -1424,6 +1498,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Lockon.started += instance.OnLockon;
                 @Lockon.performed += instance.OnLockon;
                 @Lockon.canceled += instance.OnLockon;
+                @Sword.started += instance.OnSword;
+                @Sword.performed += instance.OnSword;
+                @Sword.canceled += instance.OnSword;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -1601,6 +1681,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnR1(InputAction.CallbackContext context);
         void OnMoveCursor(InputAction.CallbackContext context);
         void OnLockon(InputAction.CallbackContext context);
+        void OnSword(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
     public interface IWaterMoveActions
     {

@@ -1,0 +1,234 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: New Avatar Mask
+  m_Mask: 01000000010000000100000000000000000000000000000001000000000000000100000000000000000000000000000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Ankle.left
+    m_Weight: 0
+  - m_Path: Ankle.right
+    m_Weight: 0
+  - m_Path: Bicep.left
+    m_Weight: 1
+  - m_Path: Bicep.right
+    m_Weight: 1
+  - m_Path: Elbow.left
+    m_Weight: 1
+  - m_Path: Elbow.right
+    m_Weight: 1
+  - m_Path: floor block
+    m_Weight: 0
+  - m_Path: Glass Dome
+    m_Weight: 0
+  - m_Path: Guns.left
+    m_Weight: 1
+  - m_Path: Guns.right
+    m_Weight: 1
+  - m_Path: Hand.left
+    m_Weight: 1
+  - m_Path: Hand.right
+    m_Weight: 1
+  - m_Path: Heel.left
+    m_Weight: 0
+  - m_Path: Heel.right
+    m_Weight: 1
+  - m_Path: Jetpack.001
+    m_Weight: 1
+  - m_Path: ledge grab block
+    m_Weight: 0
+  - m_Path: Main Compartment
+    m_Weight: 0
+  - m_Path: Mech Armature
+    m_Weight: 1
+  - m_Path: Mech Armature/Root
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/IKelbow.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/IKelbow.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/IKfoot.l
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/IKfoot.r
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/IKhand.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/IKhand.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/IKknee.l
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/IKknee.r
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/GlassDome
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Jetpack
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Lever.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Lever.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l/Bicep.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l/Bicep.l/Forearm1.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l/Bicep.l/Forearm1.l/Forearm2.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l/Bicep.l/Forearm1.l/Forearm2.l/Guns.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l/Bicep.l/Forearm1.l/Forearm2.l/Palm.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l/Bicep.l/Forearm1.l/Forearm2.l/Palm.l/Fingers.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.l/Bicep.l/Forearm1.l/Forearm2.l/Thumb.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r/Bicep.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r/Bicep.r/Forearm1.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r/Bicep.r/Forearm1.r/Forearm2.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r/Bicep.r/Forearm1.r/Forearm2.r/Guns.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r/Bicep.r/Forearm1.r/Forearm2.r/Palm.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r/Bicep.r/Forearm1.r/Forearm2.r/Palm.r/Fingers.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Shoulder.r/Bicep.r/Forearm1.r/Forearm2.r/Thumb.r
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/SwordFin.l
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/SwordFin.l/Propeller
+    m_Weight: 1
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.l
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.l/Shin.l
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.l/Shin.l/Ankle.l
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.l/Shin.l/Ankle.l/Heel.l
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.l/Shin.l/Ankle.l/Heel.l/Toe.l
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.r
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.r/Shin.r
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.r/Shin.r/Ankle.r
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.r/Shin.r/Ankle.r/Heel.r
+    m_Weight: 0
+  - m_Path: Mech Armature/Root/Main Compartment 1/Thigh.r/Shin.r/Ankle.r/Heel.r/Toe.r
+    m_Weight: 0
+  - m_Path: Mech Sword Armature
+    m_Weight: 0
+  - m_Path: Mech Sword Armature/swordhandle
+    m_Weight: 1
+  - m_Path: Mech Sword Armature/swordhandle/swordblade
+    m_Weight: 1
+  - m_Path: Mech Sword Armature/swordhandle/swordpropeller
+    m_Weight: 1
+  - m_Path: pushing block
+    m_Weight: 0
+  - m_Path: Sage custom Armature
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/FootIK.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/FootIK.r
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/HandIK.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/HandIK.r
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/HeelIK.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/HeelIK.r
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Belt
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/jacket tips
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/Neck
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/Neck/Head
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/Neck/Head/Goggles
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/Neck/Head/Hair
+      tips
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/ShoulderAndUpperArm.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/ShoulderAndUpperArm.l/Forearm.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/ShoulderAndUpperArm.l/Forearm.l/Hand.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/ShoulderAndUpperArm.r
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/ShoulderAndUpperArm.r/Forearm.r
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Lower Torso/Upper Torso/ShoulderAndUpperArm.r/Forearm.r/Hand.r
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Thigh.l 1
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Thigh.l 1/Shin.l 1
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Thigh.l 1/Shin.l 1/Foot.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Thigh.r 1
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Thigh.r 1/Shin.r 1
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/Pelvis/Thigh.r 1/Shin.r 1/Foot.r
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/WristIK.l
+    m_Weight: 0
+  - m_Path: Sage custom Armature/Root Parent/RootSage/WristIK.r
+    m_Weight: 0
+  - m_Path: Sage full model
+    m_Weight: 0
+  - m_Path: Shin.left
+    m_Weight: 0
+  - m_Path: Shin.right
+    m_Weight: 0
+  - m_Path: Shoulder.left
+    m_Weight: 1
+  - m_Path: Shoulder.right
+    m_Weight: 1
+  - m_Path: Sword in hand
+    m_Weight: 1
+  - m_Path: Sword on back
+    m_Weight: 1
+  - m_Path: Thigh.left
+    m_Weight: 0
+  - m_Path: Thigh.right
+    m_Weight: 0
+  - m_Path: Toe.left
+    m_Weight: 0
+  - m_Path: Toe.right
+    m_Weight: 0
+  - m_Path: Wrist.left
+    m_Weight: 1
+  - m_Path: Wrist.right
+    m_Weight: 1

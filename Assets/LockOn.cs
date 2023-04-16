@@ -80,7 +80,7 @@ public class LockOn : MonoBehaviour
     
     void LockOnToTarget()
     { 
-        Debug.Log("Lock on pressed " + lockOnPressed);
+         Debug.Log("Lock on pressed " + lockOnPressed);
         if(lockOnPressed)
         {
             //enemiesInRage = new List<Transform>();

@@ -27,6 +27,11 @@ public class GroundMoveState : IState{
     private bool lockOnPressed;
     float _turnSmoothVelocity = 6000;
     private const float Speed = 375;
+    private bool attackPressed = false;
+    private int currentAttack = 0;
+    private int maxAttacks = 4;
+    private float attackInputWindow = .75f;
+    private float attackCounter = 0;
    
     float _angle;
     float _targetAngle;
@@ -44,6 +49,7 @@ public class GroundMoveState : IState{
     readonly float dragForce = 8.5f;
     readonly int maxJumps = 2;
     int currentJumps;
+    private bool swordEquipped = false;
     PlayerEventPublisher publisher;
     readonly CapsuleCollider collider;
 
@@ -88,6 +94,9 @@ public class GroundMoveState : IState{
         _controls.GroundMove.Dash.canceled += OnDash;
         _controls.GroundMove.Lockon.performed += HandleLockOn;
         _controls.GroundMove.Lockon.canceled += HandleLockOn;
+        _controls.GroundMove.Sword.performed += HandleSword;
+        _controls.GroundMove.Attack.performed += OnAttack;
+        
         
         timeToPeak = maxJumpTime/2;
         gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToPeak,2);
@@ -141,7 +150,8 @@ public class GroundMoveState : IState{
         Debug.DrawLine(_prevPos, _playerTransform.position, Color.black,2f);
         GroundCheck();
         HandleRotation();
-      Debug.Log("Grounded " + _isGrounded);
+        HandleAttack();
+        Debug.Log("Attack counter " + attackCounter);
         publisher.updateForce(_force);
         publisher.updateVelocity(_rigidbody.velocity);
         publisher.updateSubmerged(Physics.CheckSphere(_groundCheck.position, 0.25f , _waterLayer));
@@ -331,6 +341,53 @@ public class GroundMoveState : IState{
         publisher.targetEnemy(lockOnPressed);
        
     }
+
+    void HandleAttack()
+    {
+        if (attackCounter > 0)
+        {
+            attackCounter -= Time.deltaTime;
+        }
+        if (attackPressed && currentAttack >= 0 && currentAttack < maxAttacks)
+        {
+            currentAttack++;
+            attackPressed = false;
+            publisher.updateAttackStatus(currentAttack);
+        }
+        if (attackCounter <= 0)
+        {
+            currentAttack = 0;
+            publisher.updateAttackStatus(-1);
+        }
+    }
+
+    void OnAttack(InputAction.CallbackContext context)
+    {
+        attackPressed = context.performed;
+        if (attackPressed)
+        {
+            attackCounter = attackInputWindow;
+            
+        }
+    }
+
+    void HandleSword(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            swordEquipped = !swordEquipped;
+            if (swordEquipped)
+            {
+                publisher.updateDrawSword();
+            }
+
+            if (!swordEquipped)
+            {
+                publisher.updateSheathSword();
+                
+            }
+        }
+    }
     
     public void Exit(){
         
@@ -342,6 +399,8 @@ public class GroundMoveState : IState{
         _controls.GroundMove.Dash.canceled  -= OnDash;
         _controls.GroundMove.Lockon.performed -= HandleLockOn;
         _controls.GroundMove.Lockon.canceled -= HandleLockOn;
+        _controls.GroundMove.Sword.performed -= HandleSword;
+        _controls.GroundMove.Attack.performed -= OnAttack;
         _controls.Disable();
     }
 }
