@@ -125,6 +125,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Tap(duration=0.5)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""a950547d-d71b-43cd-a8ca-7fe86496cb0f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -422,6 +431,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a0187fe-cb8f-41dd-bb4d-6a49e0fc9b9e"",
+                    ""path"": ""<XInputController>/leftTrigger"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec8acf1d-5db9-4f2d-801a-6b92b55af5b0"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1178,6 +1209,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Throttle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd4a8db7-217d-4fb6-98c8-ddb02965e213"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1322,6 +1364,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_GroundMove_Lockon = m_GroundMove.FindAction("Lockon", throwIfNotFound: true);
         m_GroundMove_Sword = m_GroundMove.FindAction("Sword", throwIfNotFound: true);
         m_GroundMove_Attack = m_GroundMove.FindAction("Attack", throwIfNotFound: true);
+        m_GroundMove_Aim = m_GroundMove.FindAction("Aim", throwIfNotFound: true);
         // WaterMove
         m_WaterMove = asset.FindActionMap("WaterMove", throwIfNotFound: true);
         m_WaterMove_Turn = m_WaterMove.FindAction("Turn", throwIfNotFound: true);
@@ -1410,6 +1453,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_GroundMove_Lockon;
     private readonly InputAction m_GroundMove_Sword;
     private readonly InputAction m_GroundMove_Attack;
+    private readonly InputAction m_GroundMove_Aim;
     public struct GroundMoveActions
     {
         private @PlayerControls m_Wrapper;
@@ -1425,6 +1469,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Lockon => m_Wrapper.m_GroundMove_Lockon;
         public InputAction @Sword => m_Wrapper.m_GroundMove_Sword;
         public InputAction @Attack => m_Wrapper.m_GroundMove_Attack;
+        public InputAction @Aim => m_Wrapper.m_GroundMove_Aim;
         public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1467,6 +1512,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Attack.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAttack;
+                @Aim.started -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_GroundMoveActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_GroundMoveActionsCallbackInterface = instance;
             if (instance != null)
@@ -1504,6 +1552,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
             }
         }
     }
@@ -1683,6 +1734,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnLockon(InputAction.CallbackContext context);
         void OnSword(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
     }
     public interface IWaterMoveActions
     {

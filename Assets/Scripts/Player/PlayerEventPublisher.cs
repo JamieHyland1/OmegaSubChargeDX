@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public class PlayerEventPublisher{
@@ -33,6 +34,11 @@ public class PlayerEventPublisher{
 
     public delegate void PlayerAttackInitEventHandler(object source);
 
+    public delegate void PlayerAimEventHandler(object source, bool aiming);
+
+    public delegate void PlayerDirectionEventHandler(object source, Vector2 direction);
+
+
 
     // Submarine events
     public static event PlayerRisingEventHandler         risingSentEvent;
@@ -56,6 +62,10 @@ public class PlayerEventPublisher{
 
     public static event PlayerSheathSwordEventHandler   sheathSworthEvent;
     public static event PlayerAttackEventHandler        attackEvent;
+
+    public static event PlayerAimEventHandler           aimEvent;
+
+    public static event PlayerDirectionEventHandler     directionEvent;
     
 
     // Camera delegates
@@ -125,6 +135,10 @@ public class PlayerEventPublisher{
         attackEvent?.Invoke(this,attack);
     }
 
+    public void UpdateDirection(Vector2 dir)
+    {
+        directionEvent?.Invoke(this,dir);
+    }
     public void updateOnLandStatus(){
         onLandEvent?.Invoke(this);
     }
@@ -137,6 +151,11 @@ public class PlayerEventPublisher{
     public void updateDrawSword()
     {
         drawSwordEvent?.Invoke(this);
+    }
+
+    public void updateAimStatus(bool aiming)
+    {
+        aimEvent?.Invoke(this,aiming);
     }
 
     public void updateSheathSword()

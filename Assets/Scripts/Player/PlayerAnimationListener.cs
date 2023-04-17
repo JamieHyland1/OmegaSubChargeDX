@@ -25,6 +25,9 @@ public class PlayerAnimationListener : MonoBehaviour
         PlayerEventPublisher.drawSwordEvent    += OnDrawSword;
         PlayerEventPublisher.sheathSworthEvent += OnSheathSword;
         PlayerEventPublisher.attackEvent       += OnAttackUpdate;
+        PlayerEventPublisher.aimEvent          += OnAimUpdate;
+        PlayerEventPublisher.directionEvent    += OnDirectionUpdate;
+
     }
     
     public void OnRisingUpdate(object source, bool rising){
@@ -49,6 +52,12 @@ public class PlayerAnimationListener : MonoBehaviour
 
     }
 
+    public void OnDirectionUpdate(object source, Vector2 dir)
+    {
+        MechAnimator.SetFloat("xDir", dir.x);
+        MechAnimator.SetFloat("zDir", dir.y);
+    }
+
     public void OnDashUpdate(object source)
     {
         MechAnimator.SetTrigger("Dash");
@@ -69,6 +78,12 @@ public class PlayerAnimationListener : MonoBehaviour
 
     public void OnSubmergedUpdate(object source){
         MechAnimator.SetTrigger("Submerged");
+    }
+
+
+    public void OnAimUpdate(object source, bool aiming)
+    {
+        MechAnimator.SetBool("Aim", aiming);
     }
 
     public void OnLandUpdate(object source){
@@ -127,6 +142,7 @@ public class PlayerAnimationListener : MonoBehaviour
         PlayerEventPublisher.drawSwordEvent    -= OnDrawSword;
         PlayerEventPublisher.sheathSworthEvent -= OnSheathSword;
         PlayerEventPublisher.attackEvent       -= OnAttackUpdate;
+        PlayerEventPublisher.aimEvent          -= OnAimUpdate;
     }
     
 }
