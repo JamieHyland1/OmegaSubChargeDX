@@ -28,8 +28,11 @@ public class TestHit : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("Colission " + other.gameObject.name);
+        hitStop.confirmHit();
 
     }
+
+
 
     private void OnParticleCollision(GameObject other)
     {

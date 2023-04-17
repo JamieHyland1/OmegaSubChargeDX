@@ -24,9 +24,15 @@ public class GroundMoveState : IState{
     bool _jumpPressed;
     bool _jumpHeld;
     bool _dashing;
+    private bool _aiming;
     private bool lockOnPressed;
     float _turnSmoothVelocity = 6000;
     private const float Speed = 375;
+    private bool attackPressed = false;
+    private int currentAttack = 0;
+    private int maxAttacks = 4;
+    private float attackInputWindow = .75f;
+    private float attackCounter = 0;
    
     float _angle;
     float _targetAngle;
@@ -44,6 +50,7 @@ public class GroundMoveState : IState{
     readonly float dragForce = 8.5f;
     readonly int maxJumps = 2;
     int currentJumps;
+    private bool swordEquipped = false;
     PlayerEventPublisher publisher;
     readonly CapsuleCollider collider;
 
@@ -88,6 +95,11 @@ public class GroundMoveState : IState{
         _controls.GroundMove.Dash.canceled += OnDash;
         _controls.GroundMove.Lockon.performed += HandleLockOn;
         _controls.GroundMove.Lockon.canceled += HandleLockOn;
+        _controls.GroundMove.Sword.performed += HandleSword;
+        _controls.GroundMove.Attack.performed += OnAttack;
+        _controls.GroundMove.Aim.performed += OnAim;
+        _controls.GroundMove.Aim.canceled += OnAim;
+        
         
         timeToPeak = maxJumpTime/2;
         gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToPeak,2);
@@ -128,20 +140,23 @@ public class GroundMoveState : IState{
       
         _move = _controls.GroundMove.Move.ReadValue<Vector2>();
         
-        SlopeCheck();
-        //we only wanna check for ledges when we're falling
-      //  CheckForLedges();
+       
+         //we only wanna check for ledges when we're falling TODO:: fix the ledge grab logic, its super finicky
+        //  CheckForLedges();
+        //tbh we dont need these as rigidbody contains a speed variable however, it doesnt keep track of horizontal and vertical speeds so i keep them just in case
         currentSpeed  = Vector3.Distance(new Vector3(_prevPos.x,0,_prevPos.z), new Vector3(_playerTransform.position.x, 0, _playerTransform.position.z))/Time.deltaTime;
         currentYSpeed = Vector3.Distance(new Vector3(0,_prevPos.y,0), new Vector3(0, _playerTransform.position.y, 0))/Time.deltaTime;
-       
         
-        
-        publisher.updateSpeedStatus(_move.magnitude);
-        publisher.updateYSpeedStatus(-currentYSpeed);
-        Debug.DrawLine(_prevPos, _playerTransform.position, Color.black,2f);
+        SlopeCheck(); 
         GroundCheck();
         HandleRotation();
-      Debug.Log("Grounded " + _isGrounded);
+        HandleAttack();
+        
+        
+        //update the animator on our various attributes 
+        publisher.updateAimStatus(_aiming);
+        publisher.updateSpeedStatus(_move.magnitude);
+        publisher.updateYSpeedStatus(-currentYSpeed);
         publisher.updateForce(_force);
         publisher.updateVelocity(_rigidbody.velocity);
         publisher.updateSubmerged(Physics.CheckSphere(_groundCheck.position, 0.25f , _waterLayer));
@@ -172,6 +187,11 @@ public class GroundMoveState : IState{
             _force = new Vector3();
             _playerSm.ChangeState(_playerSm._DshState);
         }
+    }
+
+    void OnAim(InputAction.CallbackContext context)
+    {
+        _aiming = context.ReadValueAsButton();
     }
     
     void CheckForLedges(){
@@ -235,7 +255,6 @@ public class GroundMoveState : IState{
             nextYvelocity = (previousYVelocity + newYVelocity) * 0.5f;
             
             
-            //Debug.Log("Jump Test: " + ( jumpPressed) + " force " + Mathf.Max(nextYvelocity,-20f));
             newYVelocity = _force.y + currentGravity;
             nextYvelocity = (previousYVelocity + newYVelocity) * 0.5f;
         }
@@ -251,7 +270,7 @@ public class GroundMoveState : IState{
             _angle = Mathf.SmoothDampAngle(_playerTransform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, 0.02f);
             Vector3 relativeForce = (Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward).normalized;
 
-          
+                publisher.UpdateDirection(_move);
                 _force.x = relativeForce.x * Speed * _move.magnitude;
                 _force.z = relativeForce.z * Speed * _move.magnitude;
             
@@ -259,6 +278,7 @@ public class GroundMoveState : IState{
         else {
             _force.x = 0;
             _force.z = 0;
+            publisher.UpdateDirection(new Vector2());
         }
     }
     // This method is to check wether the mech should be in its land state or water state
@@ -331,6 +351,53 @@ public class GroundMoveState : IState{
         publisher.targetEnemy(lockOnPressed);
        
     }
+
+    void HandleAttack()
+    {
+        if (attackCounter > 0)
+        {
+            attackCounter -= Time.deltaTime;
+        }
+        if (attackPressed && currentAttack >= 0 && currentAttack < maxAttacks)
+        {
+            currentAttack++;
+            attackPressed = false;
+            publisher.updateAttackStatus(currentAttack);
+        }
+        if (attackCounter <= 0)
+        {
+            currentAttack = 0;
+            publisher.updateAttackStatus(-1);
+        }
+    }
+
+    void OnAttack(InputAction.CallbackContext context)
+    {
+        attackPressed = context.performed;
+        if (attackPressed)
+        {
+            attackCounter = attackInputWindow;
+            
+        }
+    }
+
+    void HandleSword(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            swordEquipped = !swordEquipped;
+            if (swordEquipped)
+            {
+                publisher.updateDrawSword();
+            }
+
+            if (!swordEquipped)
+            {
+                publisher.updateSheathSword();
+                
+            }
+        }
+    }
     
     public void Exit(){
         
@@ -342,6 +409,10 @@ public class GroundMoveState : IState{
         _controls.GroundMove.Dash.canceled  -= OnDash;
         _controls.GroundMove.Lockon.performed -= HandleLockOn;
         _controls.GroundMove.Lockon.canceled -= HandleLockOn;
+        _controls.GroundMove.Sword.performed -= HandleSword;
+        _controls.GroundMove.Attack.performed -= OnAttack;
+        _controls.GroundMove.Aim.performed -= OnAim;
+        _controls.GroundMove.Aim.canceled -= OnAim;
         _controls.Disable();
     }
 }

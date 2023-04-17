@@ -95,7 +95,7 @@ public class DashState : IState{
             groundLayer = LayerMask.GetMask("Level Geometry");
             waterLayer  = LayerMask.GetMask("Water");
             nextPos = playerTransform.position;
-            
+            publisher.playDashEvent();
             Ray ray = new Ray(playerTransform.position,playerTransform.forward );
             RaycastHit hit;
             Physics.Raycast(ray,  out hit, dashDistance);
@@ -112,6 +112,7 @@ public class DashState : IState{
        
             controls.Enable();
             controls.GroundMove.DashJump.performed += OnJump;
+          
             // controls.GroundMove.Jump.canceled += OnJump;
         }
         public void FixedTick(){
