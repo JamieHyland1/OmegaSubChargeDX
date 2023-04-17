@@ -27,7 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Exposure: 0.43
-    - _Rotation: 80.5757
+    - _Rotation: 101.654434
     m_Colors:
-    - _Tint: {r: 0.5916014, g: 0.6982787, b: 0.9278743, a: 1}
+    - _Tint: {r: 0.54709226, g: 0.6734431, b: 0.9877784, a: 1}
   m_BuildTextureStacks: []
