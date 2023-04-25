@@ -18,7 +18,7 @@ public class PlayerEventPublisher{
     public delegate void PlayerGroundedEventHandler       (object source, bool grounded);
     public delegate void PlayerSubmergedEventHandler      (object source);
     public delegate void PlayerOnLandEventHandler         (object source);
-    public delegate void PlayerJumpEventHandler           (object source);
+    public delegate void PlayerJumpEventHandler           (object source, int jump);
     
     public delegate void PlayerLockOnEventHandler(object source, bool lockOnPressed);
 
@@ -163,8 +163,8 @@ public class PlayerEventPublisher{
         sheathSworthEvent?.Invoke(this);
     }
 
-    public void updateJumpedStatus(){
-        jumpEvent?.Invoke(this);
+    public void updateJumpedStatus(int jump){
+        jumpEvent?.Invoke(this, jump);
     }
 
     public void changeToSubCamera(){

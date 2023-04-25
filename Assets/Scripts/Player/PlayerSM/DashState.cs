@@ -149,7 +149,7 @@ public class DashState : IState{
                 
                 if (_jumpPressed )
                 {
-                    publisher.updateJumpedStatus();
+                    publisher.updateJumpedStatus(3);
                 }
         }
         void HandleJump()

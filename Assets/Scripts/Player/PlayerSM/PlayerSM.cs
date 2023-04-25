@@ -75,6 +75,7 @@ public class PlayerSM : StateMachine
     [SerializeField] public Transform wallCheck;
     [SerializeField] public Transform ledgeCheck;
     [SerializeField] public Transform waterSurfaceCheck;
+    [SerializeField] public Transform slopeCheck;
     [SerializeField] private AnimationCurve accelCurve;
     [SerializeField] private AnimationCurve gravitylCurve;
     [SerializeField] private AnimationCurve dashCurve;
@@ -134,7 +135,7 @@ private void Awake(){
             playerTransform = this.gameObject.transform;
             controls.Enable();
             _WaterMoveState   = new WaterMoveState(this, rigidbody, this.transform, groundCheck, waterSurfaceCheck,  controls,   attackMat,  boostEffectObj,torpedoObj, fallTriggerDeadzone, moveSpeed, ySpeed, boostSpeed, accelCurve, collider,_lockOn);
-            _GroundMoveState  = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck, wallCheck, ledgeCheck, collider);
+            _GroundMoveState  = new GroundMoveState(this, rigidbody, controls, this.transform, groundCheck, wallCheck, ledgeCheck, slopeCheck, collider);
             _DshState         = new DashState(this, rigidbody, this.transform, groundCheck, waterSurfaceCheck, wallCheck, controls, dashCurve, dashDistance);
             _DashJump         = new DashJump(this, rigidbody, this.transform, groundCheck, waterSurfaceCheck, controls);
             _LedgeGrabState   = new LedgeGrabState(this, rigidbody,this.transform,wallCheck,ledgeCheck,controls);

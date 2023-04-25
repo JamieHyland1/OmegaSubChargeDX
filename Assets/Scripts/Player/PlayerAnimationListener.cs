@@ -117,8 +117,9 @@ public class PlayerAnimationListener : MonoBehaviour
         MechAnimator.SetTrigger("sheathSword");
     }
 
-    public void OnJumpedUpdate(object source){
+    public void OnJumpedUpdate(object source, int jump){
         MechAnimator.SetTrigger("Jump");
+        MechAnimator.SetInteger("JumpNumber", jump);
         SageAnimator.SetTrigger("Jump");
     }
 

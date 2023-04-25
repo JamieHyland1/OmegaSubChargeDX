@@ -13,6 +13,8 @@ public class DebugEventListener : MonoBehaviour
     [SerializeField] private TMP_Text _currentVeloctiy;
     
     [SerializeField] private TMP_Text _submergedStatus;
+    
+    [SerializeField] private TMP_Text _groundedStatus;
 
     
 
@@ -23,6 +25,7 @@ public class DebugEventListener : MonoBehaviour
         PlayerEventPublisher.forceUpdate += updateForce;
         PlayerEventPublisher.velocityUpdate += updateVelocity;
         PlayerEventPublisher.submergedUpdate += updateSubmerged;
+        PlayerEventPublisher.groundedEvent += updateGrounded;
         //_currentForce = "Force: " + "'" + new Vector3() + "'";
 
     }
@@ -42,5 +45,10 @@ public class DebugEventListener : MonoBehaviour
     void updateSubmerged(object source, bool submerged)
     {
         _submergedStatus.text = "Submerged: " + submerged;
+    }
+
+    void updateGrounded(object source, bool grounded)
+    {
+        _groundedStatus.text = "Grounded: " + grounded;
     }
 }

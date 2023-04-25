@@ -169,7 +169,7 @@ public class LedgeGrabState : IState{
         Debug.Log("hi " + context.performed);
         _jumpPressed = context.performed;
         if(_jumpPressed && currentJumps > 0){
-            publisher.updateJumpedStatus();
+            publisher.updateJumpedStatus(-1);
         }
     }
     void HandleJump(){
